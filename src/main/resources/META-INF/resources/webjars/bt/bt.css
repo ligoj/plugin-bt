@@ -1,0 +1,62 @@
+
+#business-hours-headers {
+	height: 20px;
+	border: 1px solid #bce8f1;
+	border-radius: 4px 4px 0 0;
+	box-sizing: border-box;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, .05) inset;
+	color: #3a87ad;
+	background-color: #d9edf7;
+	margin-top: 3px;
+}
+#business-hours-headers span {
+	float: left;
+	left: -14px;
+	position: relative;
+	width: 8.33333%;
+	font-size: 11px;
+}
+#business-hours-content {
+	border-bottom: 1px solid #bce8f1;
+	border-left: 1px solid #bce8f1;
+	border-right: 1px solid #bce8f1;
+	border-radius: 0 0 4px 4px;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, .05) inset;
+	background-color: #d9edf7;
+	position: relative;
+	height: 20px;
+}
+#business-hours-content .progress-bar {
+	position: absolute;
+	opacity: .85;
+	filter: alpha(opacity=85);
+	cursor: move;
+	transition: none;
+}
+
+#business-hours-content .bar-info {
+	width: 100%;
+	background-color: #5bc0de;
+	background-image: linear-gradient(90deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+	background-size: 8.33333% 40px;
+	transition: none;
+}
+#business-hours-content .progress-bar .ui-resizable-w {
+	left: 0;
+}
+#business-hours-content .progress-bar .ui-resizable-e {
+	right: 0;
+}
+#business-hours-content .progress-bar span.start {
+	float: left;
+	margin-left: 2px;
+}
+#business-hours-content .progress-bar span.end {
+	float: right;
+	margin-right: 2px;
+}
+
+#slaPopup .control-label i {
+	position: relative;
+	right: -2px;
+}

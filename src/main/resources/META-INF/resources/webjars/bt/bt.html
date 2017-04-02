@@ -1,0 +1,206 @@
+<div class="hide subscribe-configuration">
+	<form id="subscribe-configuration-bt" class="form-horizontal hide">
+		<div class="alert alert-info" role="alert">
+			Les modifications sont immédiatement enregistrées
+		</div>
+		<fieldset>
+			<legend>
+				<span class="project-name"></span> / SLA
+			</legend>
+			<table id="slas" class="table table-striped table-bordered justified">
+				<thead>
+					<tr>
+						<th>{{name}}</th>
+						<th class="hidden-sm hidden-md">{{description}}</th>
+						<th><i class="fa fa-play" title="Start of SLA"></i></th>
+						<th class="hidden-sm"><i class="fa fa-pause" title="Paused statuses"></i></th>
+						<th><i class="fa fa-stop" title="Stop of SLA"></i></th>
+						<th class="hidden-sm hidden-md">{{service:bt:sla:priority}}</th>
+						<th class="hidden-sm hidden-md">{{service:bt:sla:resolution}}</th>
+						<th class="hidden-sm hidden-md">{{service:bt:sla:type}}</th>
+						<th><i class="fa fa-remove"></i></th>
+						<th title="{{actions}}">&nbsp;</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td class="dataTables_empty" colspan="10">{{loading}}</td>
+					</tr>
+				</tbody>
+			</table>
+		</fieldset>
+		<fieldset>
+			<legend>
+				Business days and hours
+			</legend>
+			<div class="form-group">
+				<label class="control-label" for="sla-calendar">Calendar</label>
+				<div>
+					<input type="text" id="sla-calendar" class="form-control">
+				</div>
+			</div>
+			<div id="business-hours" class="well">
+				<button type="button" id="business-hours-add" class="btn btn-success btn-xs" data-target="#businessHoursPopup" data-toggle="modal">
+					{{add}}
+				</button>
+				<div id="business-hours-headers">
+					<span>&nbsp;</span>
+					<span class="hidden-sm">02:00</span>
+					<span class="hidden-sm">04:00</span>
+					<span>06:00</span>
+					<span class="hidden-sm">08:00</span>
+					<span class="hidden-sm">10:00</span>
+					<span>12:00</span>
+					<span class="hidden-sm">14:00</span>
+					<span class="hidden-sm">16:00</span>
+					<span>18:00</span>
+					<span class="hidden-sm">20:00</span>
+					<span class="hidden-sm">22:00</span>
+				</div>
+				<div id="business-hours-content" class="progress"></div>
+			</div>
+		</fieldset>
+		<div class="form-actions">
+			<input class="btn btn-link cancel-subscription" type="button" value="{{back}}">
+		</div>
+	</form>
+	<form id="slaPopup" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="slamodal-title" enctype="multipart/form-data" method="post">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="{{cancel}}">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="slamodal-title">SLA Configuration</h4>
+
+				</div>
+				<div class="modal-body">
+					<div class="form-horizontal">
+						<div class="form-group required">
+							<label class="control-label" for="sla-name">{{name}}</label>
+							<div>
+								<input type="text" id="sla-name" maxlength="50" class="form-control">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label" for="sla-description">{{description}}</label>
+							<div>
+								<textarea rows="3" id="sla-description" maxlength="250" class="form-control"></textarea>
+							</div>
+						</div>
+						<div class="form-group required">
+							<label class="control-label" for="sla-start">{{service:bt:sla:start}}<i class="fa fa-play"></i> </label>
+							<div>
+								<input type="text" id="sla-start" class="form-control">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label" for="sla-pause">{{service:bt:sla:pause}}<i class="fa fa-pause"></i> </label>
+							<div>
+								<input type="text" id="sla-pause" class="form-control">
+							</div>
+						</div>
+						<div class="form-group required">
+							<label class="control-label" for="sla-stop">{{service:bt:sla:stop}}<i class="fa fa-stop"></i> </label>
+							<div>
+								<input type="text" id="sla-stop" class="form-control">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label" for="sla-type">{{service:bt:sla:type}}</label>
+							<div>
+								<input type="text" id="sla-type" class="form-control">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label" for="sla-priority">{{service:bt:sla:priority}}</label>
+							<div>
+								<input type="text" id="sla-priority" class="form-control">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label" for="sla-resolution">{{service:bt:sla:resolution}}</label>
+							<div>
+								<input type="text" id="sla-resolution" class="form-control">
+							</div>
+						</div>
+						<div class="form-group required">
+							<label class="control-label" for="sla-threshold-hour">{{service:bt:sla:threshold}}</label>
+							<div class="col-sm-7">
+								<div class="input-group">
+									<input type="text" id="sla-threshold-hour" class="input-spinner form-control" required>
+									<div class="spinner-buttons btn-group-vertical">
+										<a class="btn btn-default spinner-up"><i class="fa fa-chevron-up"></i></a>
+										<a class="btn btn-default spinner-down"><i class="fa fa-chevron-down"></i> </a>
+									</div>
+									<span class="input-group-addon">h</span>
+									<input type="text" id="sla-threshold-minute" class="input-spinner form-control" required>
+									<div class="spinner-buttons btn-group-vertical">
+										<a class="btn btn-default spinner-up"><i class="fa fa-chevron-up"></i></a>
+										<a class="btn btn-default spinner-down"><i class="fa fa-chevron-down"></i> </a>
+									</div>
+									<span class="input-group-addon">m</span>
+									<input type="text" id="sla-threshold-second" class="input-spinner form-control" required>
+									<div class="spinner-buttons btn-group-vertical">
+										<a class="btn btn-default spinner-up"><i class="fa fa-chevron-up"></i></a>
+										<a class="btn btn-default spinner-down"><i class="fa fa-chevron-down"></i> </a>
+									</div>
+									<span class="input-group-addon">s</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<input type="submit" class="btn btn-primary btn-raised" id="sla-update" value="{{save}}">
+					<button type="button" class="btn btn-link" data-dismiss="modal" aria-hidden="true">
+						{{cancel}}
+					</button>
+				</div>
+			</div>
+		</div>
+	</form>
+	<form id="businessHoursPopup" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="bhmodal-title" enctype="multipart/form-data" method="post">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="{{cancel}}">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="bhmodal-title">Business Hours</h4>
+				</div>
+				<div class="modal-body">
+					<div class="form-horizontal">
+						<div class="form-group required">
+							<label class="control-label" for="sla-business-hours-start">{{service:bt:sla:business-hours:start}}</label>
+							<div>
+								<div class="input-group bootstrap-timepicker">
+									<input id="sla-business-hours-start" type="text" class="input-mini time form-control">
+									<span class="input-group-addon"><i class="fa fa-remove"></i></span>
+								</div>
+							</div>
+						</div>
+						<div class="form-group required">
+							<label class="control-label" for="sla-business-hours-end">{{service:bt:sla:business-hours:end}}</label>
+							<div>
+								<div class="input-group bootstrap-timepicker">
+									<input id="sla-business-hours-end" type="text" class="input-mini time form-control">
+									<span class="input-group-addon"><i class="fa fa-remove"></i></span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<input type="submit" class="btn btn-primary btn-raised" value="{{save}}">
+					<button type="button" class="btn btn-danger btn-raised" id="business-hours-delete" title="{{delete}}">
+						<i class="fa fa-trash"></i>
+					</button>
+					<button type="button" class="btn btn-link" data-dismiss="modal" aria-hidden="true">
+						{{cancel}}
+					</button>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>

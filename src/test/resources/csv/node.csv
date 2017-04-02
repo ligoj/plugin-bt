@@ -1,0 +1,4 @@
+id;name;refined.id;mode;uiClasses;tag;tagUiClasses
+service:bt;Bug Tracker;;LINK;fa fa-bug;functional;fa fa-suitcase
+service:bt:jira;JIRA;service:bt;LINK;;;
+service:bt:jira:4;JIRA 4;service:bt:jira;LINK;;;
