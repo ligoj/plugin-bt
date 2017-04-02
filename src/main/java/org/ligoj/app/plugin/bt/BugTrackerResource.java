@@ -272,6 +272,7 @@ public class BugTrackerResource extends AbstractServicePlugin implements Configu
 	 * 
 	 * @param vo
 	 *            The business hours to attach.
+	 * @return The new identifier of persisted {@link BusinessHours} entity.
 	 */
 	@POST
 	@Path("business-hours")

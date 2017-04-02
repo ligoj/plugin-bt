@@ -16,7 +16,7 @@ public interface BugTrackerServicePlugin extends ServicePlugin {
 	 *            the subscription's identifier.
 	 * @return the statuses.
 	 */
-	Set<String> getStatuses(int subscription) throws Exception;
+	Set<String> getStatuses(int subscription);
 
 	/**
 	 * Return available types text.
@@ -25,7 +25,7 @@ public interface BugTrackerServicePlugin extends ServicePlugin {
 	 *            the subscription's identifier.
 	 * @return the types.
 	 */
-	Set<String> getTypes(int subscription) throws Exception;
+	Set<String> getTypes(int subscription);
 
 	/**
 	 * Return available priorities text.
@@ -34,7 +34,7 @@ public interface BugTrackerServicePlugin extends ServicePlugin {
 	 *            the subscription's identifier.
 	 * @return the priorities.
 	 */
-	Set<String> getPriorities(int subscription) throws Exception;
+	Set<String> getPriorities(int subscription);
 
 	/**
 	 * Return available resolutions text.
@@ -43,5 +43,5 @@ public interface BugTrackerServicePlugin extends ServicePlugin {
 	 *            the subscription's identifier.
 	 * @return the resolutions.
 	 */
-	Set<String> getResolutions(int subscription) throws Exception;
+	Set<String> getResolutions(int subscription);
 }

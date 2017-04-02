@@ -22,6 +22,10 @@ public class IdentifierHelper {
 
 	/**
 	 * Split the comma separated string into list.
+	 * 
+	 * @param items
+	 *            Items as string, comma separated. May be <code>null</code>.
+	 * @return The split item.
 	 */
 	public List<String> asList(final String items) {
 		return Arrays.asList(StringUtils.split(StringUtils.trimToEmpty(items), ','));
@@ -29,13 +33,18 @@ public class IdentifierHelper {
 
 	/**
 	 * Normalize and sort given values.
+	 * 
+	 * @param values
+	 *            The value to normalize.
+	 * @return The normalized and sorted items.
 	 */
 	public List<String> normalize(final Collection<String> values) {
 		return values.stream().map(new NormalizeFormat()::format).sorted().collect(Collectors.toList());
 	}
 
 	/**
-	 * Transform the string containing comma separated texts to the corresponding identifiers.
+	 * Transform the string containing comma separated texts to the
+	 * corresponding identifiers.
 	 *
 	 * @param texts
 	 *            the string containing comma separated texts.
@@ -51,7 +60,8 @@ public class IdentifierHelper {
 		return result;
 	}
 
-	private void extracted(final Map<Integer, String> allStatus, final String originalStatus, final Set<Integer> targetIndentifiers) {
+	private void extracted(final Map<Integer, String> allStatus, final String originalStatus,
+			final Set<Integer> targetIndentifiers) {
 		final Format format = new NormalizeFormat();
 		final String text = format.format(originalStatus);
 		for (final Entry<Integer, String> status : allStatus.entrySet()) {
