@@ -1,6 +1,7 @@
 package org.ligoj.app.plugin.bt;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -376,5 +377,10 @@ public class BugTrackerResource extends AbstractServicePlugin implements Configu
 			throw new EntityNotFoundException(String.valueOf(subscription));
 		}
 		return configuration;
+	}
+
+	@Override
+	public List<Class<?>> getInstalledEntities() {
+		return Arrays.asList(Calendar.class, Holiday.class);
 	}
 }

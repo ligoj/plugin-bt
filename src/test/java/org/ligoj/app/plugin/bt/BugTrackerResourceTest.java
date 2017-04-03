@@ -177,9 +177,8 @@ public class BugTrackerResourceTest extends AbstractAppTest {
 		Assert.assertEquals(1, resolutions.size());
 		Assert.assertEquals("Fixed", resolutions.get(0));
 
-	
 		Assert.assertEquals("service:bt", resource.getKey());
-}
+	}
 
 	@Test(expected = EntityNotFoundException.class)
 	public void deleteUnknown() {
@@ -328,7 +327,7 @@ public class BugTrackerResourceTest extends AbstractAppTest {
 		// Check calendar
 		final Calendar calendar = configuration.getCalendar();
 		Assert.assertNotNull(calendar);
-		Assert.assertEquals(44, calendar.getHolidays().size());
+		Assert.assertEquals(66, calendar.getHolidays().size());
 		Assert.assertEquals("France", calendar.getName());
 		Assert.assertEquals("Jour de l'an", calendar.getHolidays().get(0).getName());
 		Assert.assertNotNull(calendar.getHolidays().get(0).getDate());
@@ -571,5 +570,11 @@ public class BugTrackerResourceTest extends AbstractAppTest {
 		Assert.assertEquals(3, resource.getAllCalendars().size());
 		Assert.assertEquals("Any1", resource.getAllCalendars().iterator().next().getName());
 
+	}
+
+	@Test
+	public void getInstalledEntities() {
+		resource.getInstalledEntities().contains(Holiday.class);
+		resource.getInstalledEntities().contains(Calendar.class);
 	}
 }
