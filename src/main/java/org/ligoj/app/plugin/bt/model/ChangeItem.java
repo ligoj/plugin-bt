@@ -25,9 +25,4 @@ public class ChangeItem extends IssueDetails {
 	 */
 	private int toStatus;
 
-	/**
-	 * Optional author of this change
-	 */
-	private String author;
-
 }

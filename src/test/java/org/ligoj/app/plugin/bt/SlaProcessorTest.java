@@ -120,6 +120,15 @@ public class SlaProcessorTest extends AbstractDataGeneratorTest {
 		Assert.assertEquals(1, process.getIssues().size());
 		Assert.assertEquals(1, process.getSlaConfigurations().size());
 		final IssueSla issueSla = process.getIssues().get(0);
+		// {2=1, 3=3, 4=2, 5=2, 6=1, 7=3, 8=1}
+		Assert.assertEquals(7, issueSla.getStatusCounter().size());
+		Assert.assertEquals(1, issueSla.getStatusCounter().get(2).intValue());
+		Assert.assertEquals(3, issueSla.getStatusCounter().get(3).intValue());
+		Assert.assertEquals(2, issueSla.getStatusCounter().get(4).intValue());
+		Assert.assertEquals(2, issueSla.getStatusCounter().get(5).intValue());
+		Assert.assertEquals(1, issueSla.getStatusCounter().get(6).intValue());
+		Assert.assertEquals(3, issueSla.getStatusCounter().get(7).intValue());
+		Assert.assertEquals(1, issueSla.getStatusCounter().get(8).intValue());
 		Assert.assertEquals(1, issueSla.getData().size());
 		final SlaData slaData = issueSla.getData().get(0);
 		Assert.assertEquals(8000, slaData.getDuration());
