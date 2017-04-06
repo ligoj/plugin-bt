@@ -60,11 +60,6 @@ public class IssueDetails extends AbstractPersistable<Integer> {
 	private String assignee;
 
 	/**
-	 * Author of change.
-	 */
-	private String author;
-
-	/**
 	 * Timing data
 	 */
 	private Integer timeSpent;
