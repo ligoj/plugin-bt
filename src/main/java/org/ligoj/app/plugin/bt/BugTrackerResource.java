@@ -24,6 +24,7 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.ligoj.app.api.ConfigurablePlugin;
+import org.ligoj.app.model.Node;
 import org.ligoj.app.plugin.bt.dao.BugTrackerConfigurationRepository;
 import org.ligoj.app.plugin.bt.dao.BusinessHoursRepository;
 import org.ligoj.app.plugin.bt.dao.CalendarRepository;
@@ -381,6 +382,6 @@ public class BugTrackerResource extends AbstractServicePlugin implements Configu
 
 	@Override
 	public List<Class<?>> getInstalledEntities() {
-		return Arrays.asList(Calendar.class, Holiday.class);
+		return Arrays.asList(Node.class, Calendar.class, Holiday.class);
 	}
 }
