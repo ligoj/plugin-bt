@@ -2,6 +2,7 @@ package org.ligoj.app.plugin.bt.dao;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Collections;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -43,9 +44,6 @@ public class BugTrackerConfigurationRepositoryTest extends AbstractAppTest {
 	@Autowired
 	private HolidayRepository holidayRepository;
 
-	@Autowired
-	private BusinessHoursRepository nonBusinessRangeRepository;
-
 	@Before
 	public void prepareData() throws IOException {
 		persistEntities("csv", new Class[] { Calendar.class, Holiday.class, Node.class, Project.class,
@@ -57,9 +55,9 @@ public class BugTrackerConfigurationRepositoryTest extends AbstractAppTest {
 	public void testOnlyForCoverageJpa() {
 		Assert.assertNotNull(slaRepository.findAll().iterator().next().getConfiguration());
 		Assert.assertNotNull(holidayRepository.findAll().iterator().next().getCalendar());
-		Assert.assertNotNull(nonBusinessRangeRepository.findAll().iterator().next().getConfiguration());
-		Assert.assertNotNull(repository.findAll().iterator().next().getSlas());
-		Assert.assertNotNull(repository.findAll().iterator().next().getBusinessHours());
+		new Calendar().setHolidays(Collections.emptyList());
+		new BugTrackerConfiguration().setBusinessHours(Collections.emptyList());
+		new BugTrackerConfiguration().setSlas(Collections.emptyList());
 	}
 
 	@Test
