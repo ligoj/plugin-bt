@@ -8,6 +8,7 @@ import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.time.DateUtils;
 import org.hibernate.validator.constraints.Range;
+import org.ligoj.app.model.Configurable;
 import org.ligoj.bootstrap.core.model.AbstractPersistable;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -22,7 +23,8 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "LIGOJ_BUSINESS_HOURS", uniqueConstraints = @UniqueConstraint(columnNames = { "configuration", "start" }))
-public class BusinessHours extends AbstractPersistable<Integer> implements Comparable<BusinessHours> {
+public class BusinessHours extends AbstractPersistable<Integer>
+		implements Comparable<BusinessHours>, Configurable<BugTrackerConfiguration, Integer> {
 
 	/**
 	 * SID

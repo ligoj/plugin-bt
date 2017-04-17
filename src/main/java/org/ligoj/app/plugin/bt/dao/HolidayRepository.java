@@ -4,13 +4,13 @@ import java.util.Date;
 import java.util.List;
 
 import org.ligoj.app.plugin.bt.model.Holiday;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.ligoj.bootstrap.core.dao.RestRepository;
 import org.springframework.data.jpa.repository.Query;
 
 /**
  * {@link Holiday} repository.
  */
-public interface HolidayRepository extends JpaRepository<Holiday, Integer> {
+public interface HolidayRepository extends RestRepository<Holiday, Integer> {
 
 	/**
 	 * Return all non business date associated to the given project and between two date.

@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import javax.transaction.Transactional.TxType;
 import javax.ws.rs.Consumes;
@@ -23,7 +22,6 @@ import javax.ws.rs.core.MediaType;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
-import org.ligoj.app.api.ConfigurablePlugin;
 import org.ligoj.app.model.Node;
 import org.ligoj.app.plugin.bt.dao.BugTrackerConfigurationRepository;
 import org.ligoj.app.plugin.bt.dao.BusinessHoursRepository;
@@ -36,7 +34,8 @@ import org.ligoj.app.plugin.bt.model.Calendar;
 import org.ligoj.app.plugin.bt.model.Holiday;
 import org.ligoj.app.plugin.bt.model.Sla;
 import org.ligoj.app.resource.ServicePluginLocator;
-import org.ligoj.app.resource.plugin.AbstractServicePlugin;
+import org.ligoj.app.resource.plugin.AbstractConfiguredServicePlugin;
+import org.ligoj.app.resource.subscription.SubscriptionResource;
 import org.ligoj.bootstrap.core.DescribedBean;
 import org.ligoj.bootstrap.core.resource.BusinessException;
 import org.ligoj.bootstrap.core.validation.ValidationJsonException;
@@ -51,7 +50,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Transactional
 @Produces(MediaType.APPLICATION_JSON)
-public class BugTrackerResource extends AbstractServicePlugin implements ConfigurablePlugin {
+public class BugTrackerResource extends AbstractConfiguredServicePlugin<BugTrackerConfiguration> {
 
 	/**
 	 * Plug-in key.
@@ -70,6 +69,9 @@ public class BugTrackerResource extends AbstractServicePlugin implements Configu
 	private BugTrackerConfigurationRepository repository;
 
 	@Autowired
+	protected SubscriptionResource subscriptionResource;
+
+	@Autowired
 	private SlaRepository slaRepository;
 
 	@Autowired
@@ -79,7 +81,7 @@ public class BugTrackerResource extends AbstractServicePlugin implements Configu
 	private CalendarRepository calendarRepository;
 
 	@Autowired
-	private BusinessHoursRepository businessRangeRepository;
+	private BusinessHoursRepository businessHoursRepository;
 
 	@Autowired
 	protected ServicePluginLocator servicePluginLocator;
@@ -95,7 +97,7 @@ public class BugTrackerResource extends AbstractServicePlugin implements Configu
 
 	@Override
 	public void delete(final int subscription, final boolean deleteRemoteData) {
-		repository.delete(getConfigurationBySubscription(subscription));
+		repository.delete(repository.findByExpected("subscription.id", subscription));
 	}
 
 	@Override
@@ -120,7 +122,7 @@ public class BugTrackerResource extends AbstractServicePlugin implements Configu
 		businessRange1.setStart(8 * DateUtils.MILLIS_PER_HOUR);
 		businessRange1.setEnd(18 * DateUtils.MILLIS_PER_HOUR);
 		businessRange1.setConfiguration(configuration);
-		businessRangeRepository.saveAndFlush(businessRange1);
+		businessHoursRepository.saveAndFlush(businessRange1);
 
 		// Set a new SLA
 		final Sla sla = new Sla();
@@ -254,7 +256,7 @@ public class BugTrackerResource extends AbstractServicePlugin implements Configu
 	@Path("sla")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public void updateSla(final SlaEditionVo vo) {
-		save(vo, slaRepository.findOneExpected(vo.getId()));
+		save(vo, findConfigured(slaRepository, vo.getId()));
 	}
 
 	/**
@@ -266,7 +268,7 @@ public class BugTrackerResource extends AbstractServicePlugin implements Configu
 	@DELETE
 	@Path("sla/{id:\\d+}")
 	public void deleteSla(@PathParam("id") final int id) {
-		slaRepository.delete(id);
+		deletedConfigured(slaRepository, id);
 	}
 
 	/**
@@ -285,7 +287,7 @@ public class BugTrackerResource extends AbstractServicePlugin implements Configu
 		entity.setEnd(vo.getEnd());
 		entity.setStart(vo.getStart());
 		entity.setId(vo.getId());
-		businessRangeRepository.saveAndFlush(entity);
+		businessHoursRepository.saveAndFlush(entity);
 		checkOverlaps(entity);
 		return entity.getId();
 	}
@@ -300,6 +302,7 @@ public class BugTrackerResource extends AbstractServicePlugin implements Configu
 	@Path("business-hours")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public void updateBusinessHours(final BusinessHoursEditionVo vo) {
+		findConfigured(businessHoursRepository, vo.getId());
 		addBusinessHours(vo);
 	}
 
@@ -312,13 +315,13 @@ public class BugTrackerResource extends AbstractServicePlugin implements Configu
 	@DELETE
 	@Path("business-hours/{id:\\d+}")
 	public void deleteBusinessHours(@PathParam("id") final int id) {
-		final BusinessHours businessHours = businessRangeRepository.findOneExpected(id);
+		final BusinessHours businessHours = findConfigured(businessHoursRepository, id);
 
 		// Check there is at least one business range
 		if (businessHours.getConfiguration().getBusinessHours().size() == 1) {
 			throw new BusinessException("service:bt:no-business-hours");
 		}
-		businessRangeRepository.delete(id);
+		businessHoursRepository.delete(businessHours);
 	}
 
 	/**
@@ -373,11 +376,7 @@ public class BugTrackerResource extends AbstractServicePlugin implements Configu
 	 * subscription.
 	 */
 	private BugTrackerConfiguration getConfigurationBySubscription(final int subscription) {
-		final BugTrackerConfiguration configuration = repository.findBySubscription(subscription);
-		if (configuration == null) {
-			throw new EntityNotFoundException(String.valueOf(subscription));
-		}
-		return configuration;
+		return repository.findByExpected("subscription", subscriptionResource.checkVisibleSubscription(subscription));
 	}
 
 	@Override

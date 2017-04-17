@@ -13,6 +13,7 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
+import org.ligoj.app.model.PluginConfiguration;
 import org.ligoj.app.model.Subscription;
 import org.ligoj.bootstrap.core.model.AbstractPersistable;
 
@@ -26,7 +27,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = "subscription"), name = "LIGOJ_BT_CONFIGURATION")
-public class BugTrackerConfiguration extends AbstractPersistable<Integer> {
+public class BugTrackerConfiguration extends AbstractPersistable<Integer> implements PluginConfiguration {
 
 	/**
 	 * SID

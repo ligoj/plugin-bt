@@ -12,6 +12,7 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
+import org.ligoj.app.model.Configurable;
 import org.ligoj.bootstrap.core.model.AbstractDescribedEntity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -26,7 +27,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = { "configuration", "name" }), name = "LIGOJ_BT_SLA")
-public class Sla extends AbstractDescribedEntity<Integer> {
+public class Sla extends AbstractDescribedEntity<Integer> implements Configurable<BugTrackerConfiguration, Integer> {
 
 	/**
 	 * SID
@@ -121,7 +122,8 @@ public class Sla extends AbstractDescribedEntity<Integer> {
 	private Set<Integer> resolutionsAsSet;
 
 	/**
-	 * Threshold of this SLA : maximum millisecond to reach then {@link #stop} status. 0 means none.
+	 * Threshold of this SLA : maximum millisecond to reach then {@link #stop}
+	 * status. 0 means none.
 	 */
 	private long threshold;
 
