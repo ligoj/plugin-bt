@@ -7,7 +7,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
 
-import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 
 import org.apache.commons.lang3.time.DateUtils;
@@ -38,6 +37,7 @@ import org.ligoj.bootstrap.core.resource.BusinessException;
 import org.ligoj.bootstrap.core.validation.ValidationJsonException;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -82,6 +82,7 @@ public class BugTrackerResourceTest extends AbstractAppTest {
 
 	@Before
 	public void prepareSubscription() throws IOException {
+		persistSystemEntities();
 		persistEntities("csv", new Class[] { Calendar.class, Holiday.class, Node.class, Project.class,
 				Subscription.class, BugTrackerConfiguration.class, BusinessHours.class, Sla.class },
 				StandardCharsets.UTF_8.name());
@@ -180,7 +181,7 @@ public class BugTrackerResourceTest extends AbstractAppTest {
 		Assert.assertEquals("service:bt", resource.getKey());
 	}
 
-	@Test(expected = EntityNotFoundException.class)
+	@Test(expected = JpaObjectRetrievalFailureException.class)
 	public void deleteUnknown() {
 		resource.delete(-1, false);
 	}
