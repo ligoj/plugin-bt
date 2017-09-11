@@ -2,7 +2,8 @@ package org.ligoj.app.plugin.bt;
 
 import java.util.List;
 
-import javax.validation.constraints.Min;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
 import javax.validation.constraints.Size;
 
 import org.ligoj.bootstrap.core.DescribedBean;
@@ -17,7 +18,7 @@ import lombok.Setter;
 @Setter
 public class SlaEditionVo extends DescribedBean<Integer> {
 
-	@Min(1)
+	@Positive
 	private int subscription;
 
 	/**
@@ -55,7 +56,7 @@ public class SlaEditionVo extends DescribedBean<Integer> {
 	/**
 	 * Threshold of this SLA : maximum millisecond to reach then {@link #stop} status. 0 means none.
 	 */
-	@Min(0)
+	@PositiveOrZero
 	private long threshold;
 
 }
