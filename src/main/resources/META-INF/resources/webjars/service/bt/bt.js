@@ -337,7 +337,7 @@ define(['jquery-ui'], function () {
 						}
 					}, {
 						data: 'description',
-						className: 'hidden-phone hidden-tablet truncate'
+						className: 'hidden-xs hidden-sm truncate'
 					}, {
 						data: 'start',
 						className: 'truncate',
@@ -346,7 +346,7 @@ define(['jquery-ui'], function () {
 						}
 					}, {
 						data: 'pause',
-						className: 'hidden-phone truncate',
+						className: 'hidden-xs truncate',
 						render: function (_i, _j, data) {
 							return data.pause.join(', ');
 						}
@@ -358,19 +358,19 @@ define(['jquery-ui'], function () {
 						}
 					}, {
 						data: 'priorities',
-						className: 'hidden-phone hidden-tablet truncate',
+						className: 'hidden-xs hidden-sm truncate',
 						render: function (_i, _j, data) {
 							return data.priorities.join(', ');
 						}
 					}, {
 						data: 'resolutions',
-						className: 'hidden-phone hidden-tablet truncate',
+						className: 'hidden-xs hidden-sm truncate',
 						render: function (_i, _j, data) {
 							return data.resolutions.join(', ');
 						}
 					}, {
 						data: 'types',
-						className: 'hidden-phone hidden-tablet truncate',
+						className: 'hidden-xs hidden-sm truncate',
 						render: function (_i, _j, data) {
 							return data.types.join(', ');
 						}
