@@ -14,11 +14,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class IssueSla extends IssueDetails {
-
-	/**
-	 * SID
-	 */
-	private static final long serialVersionUID = 1L;
 	
 	/**
 	 * Ordered SLA data.

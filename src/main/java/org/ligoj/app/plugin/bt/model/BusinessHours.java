@@ -27,11 +27,6 @@ public class BusinessHours extends AbstractPersistable<Integer>
 		implements Comparable<BusinessHours>, Configurable<BugTrackerConfiguration, Integer> {
 
 	/**
-	 * SID
-	 */
-	private static final long serialVersionUID = 4795855466011388616L;
-
-	/**
 	 * Business hours start, inclusive. Unix millisecond, 0 meaning start of
 	 * day. 24*60*60*1000 meaning midnight.
 	 */

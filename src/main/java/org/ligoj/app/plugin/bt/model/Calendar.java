@@ -25,11 +25,6 @@ import lombok.Setter;
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = "name"), name = "LIGOJ_BT_CALENDAR")
 public class Calendar extends AbstractNamedEntity<Integer> {
 
-	/**
-	 * SID
-	 */
-	private static final long serialVersionUID = 1L;
-
 	@JsonIgnore
 	@OneToMany(mappedBy = "calendar", cascade = CascadeType.REMOVE)
 	@OrderBy("date ASC")

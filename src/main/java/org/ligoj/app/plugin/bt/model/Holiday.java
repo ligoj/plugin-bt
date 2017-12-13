@@ -15,18 +15,13 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * One holyday.
+ * One holiday.
  */
 @Getter
 @Setter
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = { "calendar", "date" }), name = "LIGOJ_BT_HOLIDAY")
 public class Holiday extends AbstractNamedEntity<Integer> {
-
-	/**
-	 * SID
-	 */
-	private static final long serialVersionUID = 4795855466011388616L;
 
 	/**
 	 * The linked calendar

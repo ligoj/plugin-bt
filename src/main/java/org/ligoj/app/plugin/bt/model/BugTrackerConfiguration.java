@@ -30,11 +30,6 @@ import lombok.Setter;
 public class BugTrackerConfiguration extends AbstractPersistable<Integer> implements PluginConfiguration {
 
 	/**
-	 * SID
-	 */
-	private static final long serialVersionUID = 1L;
-
-	/**
 	 * Attached {@link Subscription}.
 	 */
 	@OneToOne

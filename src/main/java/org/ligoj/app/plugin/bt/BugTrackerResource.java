@@ -345,7 +345,7 @@ public class BugTrackerResource extends AbstractConfiguredServicePlugin<BugTrack
 	@GET
 	@Path("calendar")
 	public List<Calendar> getAllCalendars() {
-		return calendarRepository.findAll(new Sort("name"));
+		return calendarRepository.findAll(Sort.by("name"));
 	}
 
 	/**

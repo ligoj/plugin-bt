@@ -11,11 +11,6 @@ import lombok.Setter;
 public class ChangeItem extends IssueDetails {
 
 	/**
-	 * SID
-	 */
-	private static final long serialVersionUID = 1L;
-
-	/**
 	 * Status from.
 	 */
 	private Integer fromStatus;
