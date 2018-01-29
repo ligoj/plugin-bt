@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang3.time.DateUtils;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.ligoj.app.plugin.bt.model.ChangeItem;
 import org.ligoj.app.plugin.bt.model.Sla;
 import org.ligoj.bootstrap.AbstractDataGeneratorTest;
@@ -26,7 +26,7 @@ public class SlaProcessorTest extends AbstractDataGeneratorTest {
 
 	private SlaProcessor processor = new SlaProcessor();
 
-	@Before
+	@BeforeEach
 	public void setupAutoWired() {
 		processor.identifierHelper = new IdentifierHelper();
 	}
@@ -35,8 +35,8 @@ public class SlaProcessorTest extends AbstractDataGeneratorTest {
 	public void processNoIssue() {
 		final SlaComputations process = processor.process(new ArrayList<>(), new ArrayList<>(), new ArrayList<>(),
 				new ArrayList<>());
-		Assert.assertEquals(0, process.getIssues().size());
-		Assert.assertEquals(0, process.getSlaConfigurations().size());
+		Assertions.assertEquals(0, process.getIssues().size());
+		Assertions.assertEquals(0, process.getSlaConfigurations().size());
 	}
 
 	@Test
@@ -46,8 +46,8 @@ public class SlaProcessorTest extends AbstractDataGeneratorTest {
 		changes.add(newChangeItem(2, 3));
 
 		final SlaComputations process = processor.process(new ArrayList<>(), changes, new ArrayList<>(), new ArrayList<>());
-		Assert.assertEquals(1, process.getIssues().size());
-		Assert.assertEquals(0, process.getSlaConfigurations().size());
+		Assertions.assertEquals(1, process.getIssues().size());
+		Assertions.assertEquals(0, process.getSlaConfigurations().size());
 	}
 
 	@Test
@@ -57,8 +57,8 @@ public class SlaProcessorTest extends AbstractDataGeneratorTest {
 		changes.add(newChangeItem(1, 3));
 
 		final SlaComputations process = processor.process(new ArrayList<>(), changes, new ArrayList<>(), new ArrayList<>());
-		Assert.assertEquals(1, process.getIssues().size());
-		Assert.assertEquals(0, process.getSlaConfigurations().size());
+		Assertions.assertEquals(1, process.getIssues().size());
+		Assertions.assertEquals(0, process.getSlaConfigurations().size());
 	}
 
 	@Test
@@ -69,8 +69,8 @@ public class SlaProcessorTest extends AbstractDataGeneratorTest {
 		changes.add(newChangeItem(1, 3));
 
 		final SlaComputations process = processor.process(new ArrayList<>(), changes, new ArrayList<>(), new ArrayList<>());
-		Assert.assertEquals(1, process.getIssues().size());
-		Assert.assertEquals(0, process.getSlaConfigurations().size());
+		Assertions.assertEquals(1, process.getIssues().size());
+		Assertions.assertEquals(0, process.getSlaConfigurations().size());
 	}
 
 	/**
@@ -88,10 +88,10 @@ public class SlaProcessorTest extends AbstractDataGeneratorTest {
 
 		final List<Sla> slas = newSla();
 		final SlaComputations process = processor.process(new ArrayList<>(), changes, new ArrayList<>(), slas);
-		Assert.assertEquals(1, process.getIssues().size());
-		Assert.assertEquals(1, process.getSlaConfigurations().size());
-		Assert.assertEquals(1, process.getIssues().get(0).getData().size());
-		Assert.assertEquals(4000, process.getIssues().get(0).getData().get(0).getDuration());
+		Assertions.assertEquals(1, process.getIssues().size());
+		Assertions.assertEquals(1, process.getSlaConfigurations().size());
+		Assertions.assertEquals(1, process.getIssues().get(0).getData().size());
+		Assertions.assertEquals(4000, process.getIssues().get(0).getData().get(0).getDuration());
 	}
 
 	/**
@@ -117,28 +117,28 @@ public class SlaProcessorTest extends AbstractDataGeneratorTest {
 
 		final List<Sla> slas = newSla();
 		final SlaComputations process = processor.process(new ArrayList<>(), changes, new ArrayList<>(), slas);
-		Assert.assertEquals(1, process.getIssues().size());
-		Assert.assertEquals(1, process.getSlaConfigurations().size());
+		Assertions.assertEquals(1, process.getIssues().size());
+		Assertions.assertEquals(1, process.getSlaConfigurations().size());
 		final IssueSla issueSla = process.getIssues().get(0);
 		// {2=1, 3=3, 4=2, 5=2, 6=1, 7=3, 8=1}
-		Assert.assertEquals(7, issueSla.getStatusCounter().size());
-		Assert.assertEquals(1, issueSla.getStatusCounter().get(2).intValue());
-		Assert.assertEquals(3, issueSla.getStatusCounter().get(3).intValue());
-		Assert.assertEquals(2, issueSla.getStatusCounter().get(4).intValue());
-		Assert.assertEquals(2, issueSla.getStatusCounter().get(5).intValue());
-		Assert.assertEquals(1, issueSla.getStatusCounter().get(6).intValue());
-		Assert.assertEquals(3, issueSla.getStatusCounter().get(7).intValue());
-		Assert.assertEquals(1, issueSla.getStatusCounter().get(8).intValue());
-		Assert.assertEquals(1, issueSla.getData().size());
+		Assertions.assertEquals(7, issueSla.getStatusCounter().size());
+		Assertions.assertEquals(1, issueSla.getStatusCounter().get(2).intValue());
+		Assertions.assertEquals(3, issueSla.getStatusCounter().get(3).intValue());
+		Assertions.assertEquals(2, issueSla.getStatusCounter().get(4).intValue());
+		Assertions.assertEquals(2, issueSla.getStatusCounter().get(5).intValue());
+		Assertions.assertEquals(1, issueSla.getStatusCounter().get(6).intValue());
+		Assertions.assertEquals(3, issueSla.getStatusCounter().get(7).intValue());
+		Assertions.assertEquals(1, issueSla.getStatusCounter().get(8).intValue());
+		Assertions.assertEquals(1, issueSla.getData().size());
 		final SlaData slaData = issueSla.getData().get(0);
-		Assert.assertEquals(8000, slaData.getDuration());
-		Assert.assertEquals(dueDate, issueSla.getDueDate());
+		Assertions.assertEquals(8000, slaData.getDuration());
+		Assertions.assertEquals(dueDate, issueSla.getDueDate());
 
 		// Pause equals to 10 seconds
-		Assert.assertEquals(getDate(2014, 7, 21, 1, 0, 10), slaData.getRevisedDueDate());
-		Assert.assertEquals(getDate(2014, 7, 21, 0, 0, 2), slaData.getStart());
-		Assert.assertEquals(getDate(2014, 7, 21, 0, 0, 20), slaData.getStop());
-		Assert.assertEquals(-(DateUtils.MILLIS_PER_HOUR - 20 * DateUtils.MILLIS_PER_SECOND + 10 * DateUtils.MILLIS_PER_SECOND),
+		Assertions.assertEquals(getDate(2014, 7, 21, 1, 0, 10), slaData.getRevisedDueDate());
+		Assertions.assertEquals(getDate(2014, 7, 21, 0, 0, 2), slaData.getStart());
+		Assertions.assertEquals(getDate(2014, 7, 21, 0, 0, 20), slaData.getStop());
+		Assertions.assertEquals(-(DateUtils.MILLIS_PER_HOUR - 20 * DateUtils.MILLIS_PER_SECOND + 10 * DateUtils.MILLIS_PER_SECOND),
 				slaData.getRevisedDueDateDistance().longValue());
 	}
 
@@ -159,20 +159,20 @@ public class SlaProcessorTest extends AbstractDataGeneratorTest {
 
 		final List<Sla> slas = newSla();
 		final SlaComputations process = processor.process(new ArrayList<>(), changes, new ArrayList<>(), slas);
-		Assert.assertEquals(1, process.getIssues().size());
-		Assert.assertEquals(1, process.getSlaConfigurations().size());
+		Assertions.assertEquals(1, process.getIssues().size());
+		Assertions.assertEquals(1, process.getSlaConfigurations().size());
 		final IssueSla issueSla = process.getIssues().get(0);
-		Assert.assertEquals(1, issueSla.getData().size());
+		Assertions.assertEquals(1, issueSla.getData().size());
 		final SlaData slaData = issueSla.getData().get(0);
-		Assert.assertEquals(4000, slaData.getDuration());
-		Assert.assertEquals(dueDate, issueSla.getDueDate());
+		Assertions.assertEquals(4000, slaData.getDuration());
+		Assertions.assertEquals(dueDate, issueSla.getDueDate());
 
 		// Unchanged due date
-		Assert.assertEquals(getDate(2014, 07, 21, 0, 0, 1), slaData.getRevisedDueDate());
+		Assertions.assertEquals(getDate(2014, 07, 21, 0, 0, 1), slaData.getRevisedDueDate());
 
-		Assert.assertEquals(getDate(2014, 07, 21, 0, 0, 0), slaData.getStart());
-		Assert.assertEquals(getDate(2014, 07, 21, 0, 0, 8), slaData.getStop());
-		Assert.assertEquals(-7000, slaData.getRevisedDueDateDistance().longValue());
+		Assertions.assertEquals(getDate(2014, 07, 21, 0, 0, 0), slaData.getStart());
+		Assertions.assertEquals(getDate(2014, 07, 21, 0, 0, 8), slaData.getStop());
+		Assertions.assertEquals(-7000, slaData.getRevisedDueDateDistance().longValue());
 	}
 
 	/**
@@ -198,19 +198,19 @@ public class SlaProcessorTest extends AbstractDataGeneratorTest {
 
 		final List<Sla> slas = newSla();
 		final SlaComputations process = processor.process(new ArrayList<>(), changes, new ArrayList<>(), slas);
-		Assert.assertEquals(1, process.getIssues().size());
-		Assert.assertEquals(1, process.getSlaConfigurations().size());
+		Assertions.assertEquals(1, process.getIssues().size());
+		Assertions.assertEquals(1, process.getSlaConfigurations().size());
 		final IssueSla issueSla = process.getIssues().get(0);
-		Assert.assertEquals(1, issueSla.getData().size());
+		Assertions.assertEquals(1, issueSla.getData().size());
 		final SlaData slaData = issueSla.getData().get(0);
-		Assert.assertEquals(8000, slaData.getDuration());
-		Assert.assertEquals(dueDate, issueSla.getDueDate());
+		Assertions.assertEquals(8000, slaData.getDuration());
+		Assertions.assertEquals(dueDate, issueSla.getDueDate());
 
 		// Due date shift : 4 seconds
-		Assert.assertEquals(getDate(2014, 07, 21, 0, 0, 7), slaData.getRevisedDueDate());
-		Assert.assertEquals(getDate(2014, 07, 21, 0, 0, 2), slaData.getStart());
-		Assert.assertEquals(getDate(2014, 07, 21, 0, 0, 20), slaData.getStop());
-		Assert.assertEquals(-(20 - 7) * DateUtils.MILLIS_PER_SECOND, slaData.getRevisedDueDateDistance().longValue());
+		Assertions.assertEquals(getDate(2014, 07, 21, 0, 0, 7), slaData.getRevisedDueDate());
+		Assertions.assertEquals(getDate(2014, 07, 21, 0, 0, 2), slaData.getStart());
+		Assertions.assertEquals(getDate(2014, 07, 21, 0, 0, 20), slaData.getStop());
+		Assertions.assertEquals(-(20 - 7) * DateUtils.MILLIS_PER_SECOND, slaData.getRevisedDueDateDistance().longValue());
 	}
 
 	/**
@@ -233,19 +233,19 @@ public class SlaProcessorTest extends AbstractDataGeneratorTest {
 
 		final List<Sla> slas = newSla();
 		final SlaComputations process = processor.process(new ArrayList<>(), changes, new ArrayList<>(), slas);
-		Assert.assertEquals(1, process.getIssues().size());
-		Assert.assertEquals(1, process.getSlaConfigurations().size());
+		Assertions.assertEquals(1, process.getIssues().size());
+		Assertions.assertEquals(1, process.getSlaConfigurations().size());
 		final IssueSla issueSla = process.getIssues().get(0);
-		Assert.assertEquals(1, issueSla.getData().size());
+		Assertions.assertEquals(1, issueSla.getData().size());
 		final SlaData slaData = issueSla.getData().get(0);
-		Assert.assertTrue(slaData.getDuration() > 47800000000L);
-		Assert.assertEquals(dueDate, issueSla.getDueDate());
+		Assertions.assertTrue(slaData.getDuration() > 47800000000L);
+		Assertions.assertEquals(dueDate, issueSla.getDueDate());
 
 		// Due date shift : 4 seconds
-		Assert.assertEquals(getDate(2014, 07, 21, 0, 0, 7), slaData.getRevisedDueDate());
-		Assert.assertEquals(getDate(2014, 07, 21, 0, 0, 2), slaData.getStart());
-		Assert.assertNull(slaData.getStop());
-		Assert.assertTrue(slaData.getRevisedDueDateDistance() < -47800000000L);
+		Assertions.assertEquals(getDate(2014, 07, 21, 0, 0, 7), slaData.getRevisedDueDate());
+		Assertions.assertEquals(getDate(2014, 07, 21, 0, 0, 2), slaData.getStart());
+		Assertions.assertNull(slaData.getStop());
+		Assertions.assertTrue(slaData.getRevisedDueDateDistance() < -47800000000L);
 	}
 
 	/**
@@ -338,10 +338,10 @@ public class SlaProcessorTest extends AbstractDataGeneratorTest {
 		sla.getTypesAsSet().add(1);
 
 		final SlaComputations process = processor.process(new ArrayList<>(), changes, new ArrayList<>(), slas);
-		Assert.assertEquals(1, process.getIssues().size());
-		Assert.assertEquals(1, process.getSlaConfigurations().size());
-		Assert.assertEquals(1, process.getIssues().get(0).getData().size());
-		Assert.assertEquals(8000, process.getIssues().get(0).getData().get(0).getDuration());
+		Assertions.assertEquals(1, process.getIssues().size());
+		Assertions.assertEquals(1, process.getSlaConfigurations().size());
+		Assertions.assertEquals(1, process.getIssues().get(0).getData().size());
+		Assertions.assertEquals(8000, process.getIssues().get(0).getData().get(0).getDuration());
 	}
 
 	@Test
@@ -355,10 +355,10 @@ public class SlaProcessorTest extends AbstractDataGeneratorTest {
 		sla.getTypesAsSet().add(2);
 
 		final SlaComputations process = processor.process(new ArrayList<>(), changes, new ArrayList<>(), slas);
-		Assert.assertEquals(1, process.getIssues().size());
-		Assert.assertEquals(1, process.getSlaConfigurations().size());
-		Assert.assertEquals(1, process.getIssues().get(0).getData().size());
-		Assert.assertNull(process.getIssues().get(0).getData().get(0));
+		Assertions.assertEquals(1, process.getIssues().size());
+		Assertions.assertEquals(1, process.getSlaConfigurations().size());
+		Assertions.assertEquals(1, process.getIssues().get(0).getData().size());
+		Assertions.assertNull(process.getIssues().get(0).getData().get(0));
 	}
 
 	@Test
@@ -372,10 +372,10 @@ public class SlaProcessorTest extends AbstractDataGeneratorTest {
 		sla.getPrioritiesAsSet().add(2);
 
 		final SlaComputations process = processor.process(new ArrayList<>(), changes, new ArrayList<>(), slas);
-		Assert.assertEquals(1, process.getIssues().size());
-		Assert.assertEquals(1, process.getSlaConfigurations().size());
-		Assert.assertEquals(1, process.getIssues().get(0).getData().size());
-		Assert.assertNull(process.getIssues().get(0).getData().get(0));
+		Assertions.assertEquals(1, process.getIssues().size());
+		Assertions.assertEquals(1, process.getSlaConfigurations().size());
+		Assertions.assertEquals(1, process.getIssues().get(0).getData().size());
+		Assertions.assertNull(process.getIssues().get(0).getData().get(0));
 	}
 
 	@Test
@@ -389,9 +389,9 @@ public class SlaProcessorTest extends AbstractDataGeneratorTest {
 		sla.getResolutionsAsSet().add(2);
 
 		final SlaComputations process = processor.process(new ArrayList<>(), changes, new ArrayList<>(), slas);
-		Assert.assertEquals(1, process.getIssues().size());
-		Assert.assertEquals(1, process.getSlaConfigurations().size());
-		Assert.assertEquals(1, process.getIssues().get(0).getData().size());
-		Assert.assertNull(process.getIssues().get(0).getData().get(0));
+		Assertions.assertEquals(1, process.getIssues().size());
+		Assertions.assertEquals(1, process.getSlaConfigurations().size());
+		Assertions.assertEquals(1, process.getIssues().get(0).getData().size());
+		Assertions.assertNull(process.getIssues().get(0).getData().get(0));
 	}
 }

@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 /**
  * {@link IdentifierHelper} test class
@@ -23,8 +23,8 @@ public class IdentifierHelperTest {
 		allStatus.put(4, "Resolved");
 		allStatus.put(5, "IN PROGRESS");
 		final Set<Integer> identifiers = identifierHelper.toIdentifiers("Resolved,In Progress2", allStatus);
-		Assert.assertEquals(1, identifiers.size());
-		Assert.assertTrue(identifiers.contains(4));
+		Assertions.assertEquals(1, identifiers.size());
+		Assertions.assertTrue(identifiers.contains(4));
 	}
 
 	@Test
@@ -36,9 +36,9 @@ public class IdentifierHelperTest {
 		allStatus.put(4, "Resolved");
 		allStatus.put(5, "IN PROGRESS");
 		final Set<Integer> identifiers = identifierHelper.toIdentifiers("Open", allStatus);
-		Assert.assertEquals(2, identifiers.size());
-		Assert.assertTrue(identifiers.contains(1));
-		Assert.assertTrue(identifiers.contains(3));
+		Assertions.assertEquals(2, identifiers.size());
+		Assertions.assertTrue(identifiers.contains(1));
+		Assertions.assertTrue(identifiers.contains(3));
 	}
 
 	@Test
@@ -50,8 +50,8 @@ public class IdentifierHelperTest {
 		allStatus.put(4, "Resolved");
 		allStatus.put(5, "IN PROGRESS");
 		final Set<Integer> identifiers = identifierHelper.toIdentifiers("Closed", allStatus);
-		Assert.assertEquals(1, identifiers.size());
-		Assert.assertTrue(identifiers.contains(2));
+		Assertions.assertEquals(1, identifiers.size());
+		Assertions.assertTrue(identifiers.contains(2));
 	}
 
 }
