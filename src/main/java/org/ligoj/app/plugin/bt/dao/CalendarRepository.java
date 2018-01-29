@@ -11,6 +11,8 @@ public interface CalendarRepository extends RestRepository<Calendar, Integer> {
 
 	/**
 	 * Return default configuration.
+	 * 
+	 * @return The default calendar.
 	 */
 	@Query("FROM Calendar WHERE asDefault=true")
 	Calendar getDefault();

@@ -16,6 +16,8 @@ public interface BugTrackerServicePlugin extends ServicePlugin {
 	 * @param subscription
 	 *            the subscription's identifier.
 	 * @return the statuses.
+	 * @throws IOException
+	 *             When statuses cannot read.
 	 */
 	Set<String> getStatuses(int subscription) throws IOException;
 
@@ -25,6 +27,8 @@ public interface BugTrackerServicePlugin extends ServicePlugin {
 	 * @param subscription
 	 *            the subscription's identifier.
 	 * @return the types.
+	 * @throws IOException
+	 *             When types cannot read.
 	 */
 	Set<String> getTypes(int subscription) throws IOException;
 
@@ -34,6 +38,8 @@ public interface BugTrackerServicePlugin extends ServicePlugin {
 	 * @param subscription
 	 *            the subscription's identifier.
 	 * @return the priorities.
+	 * @throws IOException
+	 *             When priorities cannot read.
 	 */
 	Set<String> getPriorities(int subscription) throws IOException;
 
@@ -43,6 +49,8 @@ public interface BugTrackerServicePlugin extends ServicePlugin {
 	 * @param subscription
 	 *            the subscription's identifier.
 	 * @return the resolutions.
+	 * @throws IOException
+	 *             When resolutions cannot read.
 	 */
 	Set<String> getResolutions(int subscription) throws IOException;
 }

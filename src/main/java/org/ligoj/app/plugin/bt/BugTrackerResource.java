@@ -170,8 +170,8 @@ public class BugTrackerResource extends AbstractConfiguredServicePlugin<BugTrack
 	/**
 	 * Add an holiday to the given {@link Calendar}
 	 */
-	private void addHoliday(final Calendar entity, final java.util.Calendar calendar, final int month,
-			final int dayOfMonth, final String name) {
+	private void addHoliday(final Calendar entity, final java.util.Calendar calendar, final int month, final int dayOfMonth,
+			final String name) {
 		calendar.set(java.util.Calendar.MONTH, month);
 		calendar.set(java.util.Calendar.DAY_OF_MONTH, dayOfMonth);
 		final Holiday holiday = new Holiday();
@@ -191,8 +191,8 @@ public class BugTrackerResource extends AbstractConfiguredServicePlugin<BugTrack
 		result.setCalendar(configuration.getCalendar());
 
 		// Provider data
-		final BugTrackerServicePlugin provider = servicePluginLocator
-				.getResourceExpected(configuration.getSubscription().getNode().getId(), BugTrackerServicePlugin.class);
+		final BugTrackerServicePlugin provider = servicePluginLocator.getResourceExpected(configuration.getSubscription().getNode().getId(),
+				BugTrackerServicePlugin.class);
 		result.setTypes(new ArrayList<>(provider.getTypes(subscription)));
 		result.setStatuses(identifierHelper.normalize(provider.getStatuses(subscription)));
 		result.setPriorities(new ArrayList<>(provider.getPriorities(subscription)));
@@ -334,13 +334,14 @@ public class BugTrackerResource extends AbstractConfiguredServicePlugin<BugTrack
 	 */
 	@PUT
 	@Path("calendar/{subscription:\\d+}/{calendar:\\d+}")
-	public void setCalendar(@PathParam("subscription") final int subscription,
-			@PathParam("calendar") final int calendar) {
+	public void setCalendar(@PathParam("subscription") final int subscription, @PathParam("calendar") final int calendar) {
 		getConfigurationBySubscription(subscription).setCalendar(calendarRepository.findOneExpected(calendar));
 	}
 
 	/**
 	 * Return available calendars
+	 * 
+	 * @return The available calendars.
 	 */
 	@GET
 	@Path("calendar")
