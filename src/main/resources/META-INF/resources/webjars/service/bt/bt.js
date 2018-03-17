@@ -390,7 +390,7 @@ define(['jquery-ui'], function () {
 						orderable: false,
 						render: function () {
 							// Delete link
-							return '<a class="delete"><i class="fa fa-remove" data-toggle="tooltip" title="' + current.$messages['delete'] + '"></i></a>';
+							return '<a class="delete"><i class="fas fa-times" data-toggle="tooltip" title="' + current.$messages['delete'] + '"></i></a>';
 						}
 					}
 				],
