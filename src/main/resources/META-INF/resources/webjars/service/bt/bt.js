@@ -1,4 +1,4 @@
-define(['jquery-ui'], function () {
+define(function () {
 	var current = {
 
 		/**
@@ -31,19 +31,21 @@ define(['jquery-ui'], function () {
 		 */
 		configure: function (configuration) {
 			current.model = configuration;
-			current.initializeSlaConfiguration();
-			_('sla-calendar').select2('data', current.model.configuration.calendar);
-			current.slasTable.fnClearTable();
-			current.slasTable.fnAddData(current.model.configuration.slas);
-			current.slasTable.fnDraw();
-			var index;
-			var container = _('business-hours-content');
-			container.empty();
-			container.append($('<div class="progress-bar bar-info"></div>'));
-			for (index = 0; index < current.model.configuration.businessHours.length; index++) {
-				current.addBusinessHours(current.model.configuration.businessHours[index]);
-			}
-			_('subscribe-configuration-bt').removeClass('hide');
+			require(['jquery-ui'], function() {
+				current.initializeSlaConfiguration();
+				_('sla-calendar').select2('data', current.model.configuration.calendar);
+				current.slasTable.fnClearTable();
+				current.slasTable.fnAddData(current.model.configuration.slas);
+				current.slasTable.fnDraw();
+				var index;
+				var container = _('business-hours-content');
+				container.empty();
+				container.append($('<div class="progress-bar bar-info"></div>'));
+				for (index = 0; index < current.model.configuration.businessHours.length; index++) {
+					current.addBusinessHours(current.model.configuration.businessHours[index]);
+				}
+				_('subscribe-configuration-bt').removeClass('hide');
+			});
 		},
 
 		/**
