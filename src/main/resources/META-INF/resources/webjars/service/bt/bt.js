@@ -37,11 +37,10 @@ define(function () {
 				current.slasTable.fnClearTable();
 				current.slasTable.fnAddData(current.model.configuration.slas);
 				current.slasTable.fnDraw();
-				var index;
 				var container = _('business-hours-content');
 				container.empty();
 				container.append($('<div class="progress-bar bar-info"></div>'));
-				for (index = 0; index < current.model.configuration.businessHours.length; index++) {
+				for (var index = 0; index < current.model.configuration.businessHours.length; index++) {
 					current.addBusinessHours(current.model.configuration.businessHours[index]);
 				}
 				_('subscribe-configuration-bt').removeClass('hide');
@@ -713,7 +712,7 @@ define(function () {
 		 * Render Bug tracking data.
 		 */
 		renderFeatures: function (subscription) {
-			return current.$super('renderServicelink')('clock-o', '#/home/project/' + subscription.project + '/subscription/' + subscription.id, 'service:bt:sla');
+			return current.$super('renderServicelink')('clock', '#/home/project/' + subscription.project + '/subscription/' + subscription.id, 'service:bt:sla');
 		}
 	};
 	return current;
