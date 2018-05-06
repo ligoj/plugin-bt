@@ -377,7 +377,7 @@ public class BugTrackerResource extends AbstractConfiguredServicePlugin<BugTrack
 	 * subscription.
 	 */
 	private BugTrackerConfiguration getConfigurationBySubscription(final int subscription) {
-		return repository.findByExpected("subscription", subscriptionResource.checkVisibleSubscription(subscription));
+		return repository.findByExpected("subscription", subscriptionResource.checkVisible(subscription));
 	}
 
 	@Override
