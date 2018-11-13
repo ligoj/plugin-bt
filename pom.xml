@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.ligoj.api</groupId>
 		<artifactId>plugin-parent</artifactId>
-		<version>2.4.4</version>
+		<version>3.1.1</version>
 		<relativePath />
 	</parent>
 
@@ -13,13 +13,6 @@
 	<version>1.0.7-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>Ligoj - Plugin BT (Bug Tracker)</name>
-
-	<properties>
-		<!-- TODO Remove with 2.2.6+ API POM -->
-		<sonar.sources>src/main/java,src/main/resources/META-INF/resources/webjars</sonar.sources>
-		<sonar.coverage.exclusions>**/*.js</sonar.coverage.exclusions>
-		<sonar.cpd.exclusions>**/messages.js</sonar.cpd.exclusions>
-	</properties>
 
 	<profiles>
 		<profile>
