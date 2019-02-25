@@ -12,7 +12,7 @@ import lombok.Getter;
 
 /**
  * A computation context for a fixed start and end dates.
- * 
+ *
  * @author Fabrice Daugan
  */
 public class ComputationContext {
@@ -56,12 +56,11 @@ public class ComputationContext {
 
 	/**
 	 * initialize the computation context.
-	 * 
+	 *
 	 * @param holidays
 	 *            the holiday list. Each day must be set to start of the day position.
 	 * @param businessHours
-	 *            The business hour ranges. May be empty or must be sorted, and first range must start with 0:00
-	 *            00.000.
+	 *            The business hour ranges. May be empty or must be sorted, and first range must start with 0:00 00.000.
 	 */
 	public ComputationContext(final List<Date> holidays, final List<BusinessHours> businessHours) {
 		this.holidays = holidays;
@@ -79,7 +78,7 @@ public class ComputationContext {
 	/**
 	 * Set the initial date. This date will be moved forward until to find the closest opening day and the business
 	 * hour.
-	 * 
+	 *
 	 * @param start
 	 *            the initial date.
 	 */
@@ -177,7 +176,7 @@ public class ComputationContext {
 
 	/**
 	 * Compute time duration in milliseconds between last known (or initial date) and the given date.
-	 * 
+	 *
 	 * @param end
 	 *            The end date for delta computation. This date should be after the last known one or will return
 	 *            <code>0</code>.
@@ -196,6 +195,33 @@ public class ComputationContext {
 			}
 		}
 		return delta;
+	}
+
+	/**
+	 * Advance the cursor with the given duration.
+	 *
+	 * @param duration
+	 *            Duration to add to current date. Business hours are considered.
+	 * @return The new date.
+	 */
+	public Date moveForward(final long duration) {
+		long remainingDuration = duration;
+		while (remainingDuration > 0) {
+			this.delta = 0;
+
+			// We need to move the cursors
+			if (cursorTime + remainingDuration < DateUtils.MILLIS_PER_DAY) {
+				// We need to compute the elapsed ranges and hours within the same day
+				computeDelayTodayToTime(cursorTime + remainingDuration);
+			} else {
+				// Move to the end of this day
+				computeDelayTodayToTime(DateUtils.MILLIS_PER_DAY);
+			}
+			remainingDuration -= delta;
+		}
+
+		// Return the new date
+		return new Date(cursor.getTime() + getCursorTime());
 	}
 
 	/**
@@ -235,34 +261,8 @@ public class ComputationContext {
 	 */
 	private long getTime(final Date date) {
 		final Calendar calendar = DateUtils.toCalendar(date);
-		return calendar.get(Calendar.HOUR_OF_DAY) * DateUtils.MILLIS_PER_HOUR + calendar.get(Calendar.MINUTE) * DateUtils.MILLIS_PER_MINUTE
+		return calendar.get(Calendar.HOUR_OF_DAY) * DateUtils.MILLIS_PER_HOUR
+				+ calendar.get(Calendar.MINUTE) * DateUtils.MILLIS_PER_MINUTE
 				+ calendar.get(Calendar.SECOND) * DateUtils.MILLIS_PER_SECOND + calendar.get(Calendar.MILLISECOND);
-	}
-
-	/**
-	 * Advance the cursor with the given duration.
-	 * 
-	 * @param duration
-	 *            Duration to add to current date. Business hours are considered.
-	 * @return The new date.
-	 */
-	public Date moveForward(final long duration) {
-		long remainingDuration = duration;
-		while (remainingDuration > 0) {
-			this.delta = 0;
-
-			// We need to move the cursors
-			if (cursorTime + remainingDuration < DateUtils.MILLIS_PER_DAY) {
-				// We need to compute the elapsed ranges and hours within the same day
-				computeDelayTodayToTime(cursorTime + remainingDuration);
-			} else {
-				// Move to the end of this day
-				computeDelayTodayToTime(DateUtils.MILLIS_PER_DAY);
-			}
-			remainingDuration -= delta;
-		}
-
-		// Return the new date
-		return new Date(cursor.getTime() + getCursorTime());
 	}
 }
