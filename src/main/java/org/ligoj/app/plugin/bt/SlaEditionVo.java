@@ -18,6 +18,11 @@ import lombok.Setter;
 @Setter
 public class SlaEditionVo extends DescribedBean<Integer> {
 
+	/**
+	 * SID
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Positive
 	private int subscription;
 

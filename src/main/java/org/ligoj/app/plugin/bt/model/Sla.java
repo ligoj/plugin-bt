@@ -30,6 +30,11 @@ import lombok.Setter;
 public class Sla extends AbstractDescribedEntity<Integer> implements Configurable<BugTrackerConfiguration, Integer> {
 
 	/**
+	 * SID
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
 	 * Non business hour range. Required for some computations.
 	 */
 	@ManyToOne

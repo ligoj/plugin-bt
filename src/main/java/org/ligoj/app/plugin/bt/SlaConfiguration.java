@@ -15,6 +15,11 @@ import lombok.Setter;
 public class SlaConfiguration extends DescribedBean<Integer> {
 
 	/**
+	 * SID
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
 	 * Statuses to start this SLA.
 	 */
 	private List<String> start;

@@ -24,6 +24,11 @@ import lombok.Setter;
 public class Holiday extends AbstractNamedEntity<Integer> {
 
 	/**
+	 * SID
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
 	 * The linked calendar
 	 */
 	@ManyToOne
