@@ -20,31 +20,31 @@ import org.ligoj.bootstrap.AbstractDataGeneratorTest;
  * 
  * @author Fabrice Daugan
  */
-public class ComputationContextTest extends AbstractDataGeneratorTest {
+class ComputationContextTest extends AbstractDataGeneratorTest {
 
 	@Test
-	public void reset() {
+	void reset() {
 		final ComputationContext context = new ComputationContext(new ArrayList<>(), new ArrayList<>());
 		context.reset(getDate(2014, 03, 03));
 		Assertions.assertEquals(getDate(2014, 03, 03), context.getCursor());
 	}
 
 	@Test
-	public void resetSaturday() {
+	void resetSaturday() {
 		final ComputationContext context = new ComputationContext(new ArrayList<>(), new ArrayList<>());
 		context.reset(getDate(2014, 03, 01));
 		Assertions.assertEquals(getDate(2014, 03, 03), context.getCursor());
 	}
 
 	@Test
-	public void resetSunday() {
+	void resetSunday() {
 		final ComputationContext context = new ComputationContext(new ArrayList<>(), new ArrayList<>());
 		context.reset(getDate(2014, 03, 02));
 		Assertions.assertEquals(getDate(2014, 03, 03), context.getCursor());
 	}
 
 	@Test
-	public void moveForwardSame() {
+	void moveForwardSame() {
 		final ComputationContext context = new ComputationContext(new ArrayList<>(), new ArrayList<>());
 		context.reset(getDate(2014, 03, 03));
 		Assertions.assertEquals(0, context.moveForward(getDate(2014, 03, 03)));
@@ -52,7 +52,7 @@ public class ComputationContextTest extends AbstractDataGeneratorTest {
 	}
 
 	@Test
-	public void moveForwardPlusOne() {
+	void moveForwardPlusOne() {
 		final ComputationContext context = new ComputationContext(new ArrayList<>(), new ArrayList<>());
 		context.reset(getDate(2014, 03, 03));
 		final Date end = new Date(getDate(2014, 03, 03).getTime() + 1);
@@ -62,7 +62,7 @@ public class ComputationContextTest extends AbstractDataGeneratorTest {
 	}
 
 	@Test
-	public void moveForwardMidnightLessOne() {
+	void moveForwardMidnightLessOne() {
 		final ComputationContext context = new ComputationContext(new ArrayList<>(), new ArrayList<>());
 		context.reset(getDate(2014, 03, 03));
 		final Date end = new Date(getDate(2014, 03, 04).getTime() - 1);
@@ -72,7 +72,7 @@ public class ComputationContextTest extends AbstractDataGeneratorTest {
 	}
 
 	@Test
-	public void moveForwardPlusOneWeek() {
+	void moveForwardPlusOneWeek() {
 		final ComputationContext context = new ComputationContext(new ArrayList<>(), new ArrayList<>());
 		context.reset(getDate(2014, 03, 03));
 		Assertions.assertEquals(5 * DateUtils.MILLIS_PER_DAY, context.moveForward(getDate(2014, 03, 10)));
@@ -80,7 +80,7 @@ public class ComputationContextTest extends AbstractDataGeneratorTest {
 	}
 
 	@Test
-	public void moveForwardPlusOnePartialWeek() {
+	void moveForwardPlusOnePartialWeek() {
 		final ComputationContext context = new ComputationContext(new ArrayList<>(), new ArrayList<>());
 		context.reset(getDate(2014, 03, 03));
 		Assertions.assertEquals(5 * DateUtils.MILLIS_PER_DAY, context.moveForward(getDate(2014, 03, 8)));
@@ -88,7 +88,7 @@ public class ComputationContextTest extends AbstractDataGeneratorTest {
 	}
 
 	@Test
-	public void resetHoliday() {
+	void resetHoliday() {
 		final List<Date> holidays = new ArrayList<>();
 		holidays.add(getDate(2014, 03, 01));
 		holidays.add(getDate(2014, 03, 03));
@@ -99,7 +99,7 @@ public class ComputationContextTest extends AbstractDataGeneratorTest {
 	}
 
 	@Test
-	public void moveForwardOnWeekHoliday() {
+	void moveForwardOnWeekHoliday() {
 		final List<Date> holidays = new ArrayList<>();
 		holidays.add(getDate(2014, 03, 04));
 		holidays.add(getDate(2014, 03, 06));
@@ -113,7 +113,7 @@ public class ComputationContextTest extends AbstractDataGeneratorTest {
 	}
 
 	@Test
-	public void resetBusinessHoursFromNonBusinessDayOfWeek() {
+	void resetBusinessHoursFromNonBusinessDayOfWeek() {
 		final ComputationContext context = new ComputationContext(new ArrayList<>(), newRanges(9, 12, 14, 18));
 		// 2014/03/01 = Sat, 2014/03/02 = Sun
 		context.reset(getDate(2014, 03, 01));
@@ -122,7 +122,7 @@ public class ComputationContextTest extends AbstractDataGeneratorTest {
 	}
 
 	@Test
-	public void resetBusinessHoursFromEODNonBusinessHour() {
+	void resetBusinessHoursFromEODNonBusinessHour() {
 		final ComputationContext context = new ComputationContext(new ArrayList<>(), newRanges(9, 12, 14, 18));
 		context.reset(getDate(2014, 03, 03, 19, 00, 00));
 		Assertions.assertEquals(getDate(2014, 03, 04), context.getCursor());
@@ -130,7 +130,7 @@ public class ComputationContextTest extends AbstractDataGeneratorTest {
 	}
 
 	@Test
-	public void resetBusinessHoursFromNonBusinessHour() {
+	void resetBusinessHoursFromNonBusinessHour() {
 		final ComputationContext context = new ComputationContext(new ArrayList<>(), newRanges(9, 12, 14, 18));
 		context.reset(getDate(2014, 03, 03, 13, 59, 59));
 		Assertions.assertEquals(getDate(2014, 03, 03), context.getCursor());
@@ -138,7 +138,7 @@ public class ComputationContextTest extends AbstractDataGeneratorTest {
 	}
 
 	@Test
-	public void resetBusinessHoursFromBusinessHour() {
+	void resetBusinessHoursFromBusinessHour() {
 		final ComputationContext context = new ComputationContext(new ArrayList<>(), newRanges(9, 12, 14, 18));
 		context.reset(getDate(2014, 03, 03, 15, 00, 00));
 		Assertions.assertEquals(getDate(2014, 03, 03), context.getCursor());
@@ -146,7 +146,7 @@ public class ComputationContextTest extends AbstractDataGeneratorTest {
 	}
 
 	@Test
-	public void resetHolidayBusinessHours() {
+	void resetHolidayBusinessHours() {
 		final List<Date> holidays = new ArrayList<>();
 		holidays.add(getDate(2014, 03, 03));
 		final ComputationContext context = new ComputationContext(holidays, newRanges(9, 12, 14, 18));
@@ -156,7 +156,7 @@ public class ComputationContextTest extends AbstractDataGeneratorTest {
 	}
 
 	@Test
-	public void moveForwardToSameDayBusinessHour() {
+	void moveForwardToSameDayBusinessHour() {
 		final ComputationContext context = new ComputationContext(new ArrayList<>(), newRanges(9, 12, 14, 18));
 		context.reset(getDate(2014, 03, 03));
 		Assertions.assertEquals(0, context.moveForward(getDate(2014, 03, 03)));
@@ -165,7 +165,7 @@ public class ComputationContextTest extends AbstractDataGeneratorTest {
 	}
 
 	@Test
-	public void moveForwardDurationToSameDayBusinessHour() {
+	void moveForwardDurationToSameDayBusinessHour() {
 		final ComputationContext context = new ComputationContext(new ArrayList<>(), newRanges(9, 12, 14, 18));
 		context.reset(getDate(2014, 03, 03));
 		Assertions.assertEquals(getDate(2014, 03, 03, 11, 0, 0), context.moveForward(DateUtils.MILLIS_PER_HOUR * 2));
@@ -174,7 +174,7 @@ public class ComputationContextTest extends AbstractDataGeneratorTest {
 	}
 
 	@Test
-	public void moveForwardToNextDayBusinessHourMidnight() {
+	void moveForwardToNextDayBusinessHourMidnight() {
 		final ComputationContext context = new ComputationContext(new ArrayList<>(), newRanges(9, 12, 14, 18));
 		context.reset(getDate(2014, 03, 03));
 		Assertions.assertEquals(7 * DateUtils.MILLIS_PER_HOUR, context.moveForward(getDate(2014, 03, 04)));
@@ -183,7 +183,7 @@ public class ComputationContextTest extends AbstractDataGeneratorTest {
 	}
 
 	@Test
-	public void moveForwardDurationToNextDayBusinessHour() {
+	void moveForwardDurationToNextDayBusinessHour() {
 		final ComputationContext context = new ComputationContext(new ArrayList<>(), newRanges(9, 12, 14, 18));
 		context.reset(getDate(2014, 03, 03));
 		Assertions.assertEquals(getDate(2014, 03, 04, 9, 0, 0), context.moveForward(DateUtils.MILLIS_PER_HOUR * 7));
@@ -192,7 +192,7 @@ public class ComputationContextTest extends AbstractDataGeneratorTest {
 	}
 
 	@Test
-	public void moveForwardToNextDayNonBusinessHour() {
+	void moveForwardToNextDayNonBusinessHour() {
 		final ComputationContext context = new ComputationContext(new ArrayList<>(), newRanges(9, 12, 14, 18));
 		context.reset(getDate(2014, 03, 03));
 		Assertions.assertEquals(7 * DateUtils.MILLIS_PER_HOUR, context.moveForward(getDate(2014, 03, 04, 8, 0, 0)));
@@ -201,7 +201,7 @@ public class ComputationContextTest extends AbstractDataGeneratorTest {
 	}
 
 	@Test
-	public void moveForwardToNext2DayNonBusinessHour() {
+	void moveForwardToNext2DayNonBusinessHour() {
 		final ComputationContext context = new ComputationContext(new ArrayList<>(), newRanges(9, 12, 14, 18));
 		context.reset(getDate(2014, 03, 03));
 		Assertions.assertEquals(7 * 2 * DateUtils.MILLIS_PER_HOUR, context.moveForward(getDate(2014, 03, 05, 8, 0, 0)));
@@ -210,7 +210,7 @@ public class ComputationContextTest extends AbstractDataGeneratorTest {
 	}
 
 	@Test
-	public void moveForwardDurationToNext2DayNonBusinessHour() {
+	void moveForwardDurationToNext2DayNonBusinessHour() {
 		final ComputationContext context = new ComputationContext(new ArrayList<>(), newRanges(9, 12, 14, 18));
 		context.reset(getDate(2014, 03, 03));
 		Assertions.assertEquals(getDate(2014, 03, 05, 9, 0, 0), context.moveForward(7 * 2 * DateUtils.MILLIS_PER_HOUR));
@@ -219,7 +219,7 @@ public class ComputationContextTest extends AbstractDataGeneratorTest {
 	}
 
 	@Test
-	public void moveForwardToNextDayBusinessHour() {
+	void moveForwardToNextDayBusinessHour() {
 		final ComputationContext context = new ComputationContext(new ArrayList<>(), newRanges(9, 12, 14, 18));
 		context.reset(getDate(2014, 03, 03));
 		Assertions.assertEquals(11 * DateUtils.MILLIS_PER_HOUR, context.moveForward(getDate(2014, 03, 04, 15, 0, 0)));
@@ -228,7 +228,7 @@ public class ComputationContextTest extends AbstractDataGeneratorTest {
 	}
 
 	@Test
-	public void moveForwardPerformance() {
+	void moveForwardPerformance() {
 		final List<Date> holidays = new ArrayList<>();
 		holidays.add(getDate(2014, 03, 04));
 		holidays.add(getDate(2014, 03, 06));
@@ -256,7 +256,7 @@ public class ComputationContextTest extends AbstractDataGeneratorTest {
 	}
 
 	@Test
-	public void resetNightBusinessHour() {
+	void resetNightBusinessHour() {
 		final ComputationContext context = new ComputationContext(new ArrayList<>(), newRanges(0, 10, 22, 24));
 		context.reset(getDate(2014, 03, 03, 23, 00, 00));
 		Assertions.assertEquals(getDate(2014, 03, 03), context.getCursor());
@@ -267,7 +267,7 @@ public class ComputationContextTest extends AbstractDataGeneratorTest {
 	}
 
 	@Test
-	public void resetNightBusinessHourFromNotBusinessHour() {
+	void resetNightBusinessHourFromNotBusinessHour() {
 		final ComputationContext context = new ComputationContext(new ArrayList<>(), newRanges(0, 10, 22, 24));
 		context.reset(getDate(2014, 03, 03, 10, 00, 00));
 		Assertions.assertEquals(getDate(2014, 03, 03), context.getCursor());
@@ -275,7 +275,7 @@ public class ComputationContextTest extends AbstractDataGeneratorTest {
 	}
 
 	@Test
-	public void resetNightBusinessHourFromMidnight() {
+	void resetNightBusinessHourFromMidnight() {
 		final ComputationContext context = new ComputationContext(new ArrayList<>(), newRanges(0, 10, 22, 24));
 		context.reset(getDate(2014, 03, 03));
 		Assertions.assertEquals(getDate(2014, 03, 03), context.getCursor());
@@ -283,7 +283,7 @@ public class ComputationContextTest extends AbstractDataGeneratorTest {
 	}
 
 	@Test
-	public void moveForwardNightBusinessHourSameDayNonBusinessHour() {
+	void moveForwardNightBusinessHourSameDayNonBusinessHour() {
 		final ComputationContext context = new ComputationContext(new ArrayList<>(), newRanges(0, 10, 22, 24));
 		context.reset(getDate(2014, 03, 03));
 		Assertions.assertEquals(10 * DateUtils.MILLIS_PER_HOUR, context.moveForward(getDate(2014, 03, 03, 15, 0, 0)));
@@ -292,7 +292,7 @@ public class ComputationContextTest extends AbstractDataGeneratorTest {
 	}
 
 	@Test
-	public void moveForwardNightBusinessHourSameDay() {
+	void moveForwardNightBusinessHourSameDay() {
 		final ComputationContext context = new ComputationContext(new ArrayList<>(), newRanges(0, 10, 22, 24));
 		context.reset(getDate(2014, 03, 03));
 		Assertions.assertEquals(11 * DateUtils.MILLIS_PER_HOUR, context.moveForward(getDate(2014, 03, 03, 23, 0, 0)));
@@ -301,7 +301,7 @@ public class ComputationContextTest extends AbstractDataGeneratorTest {
 	}
 
 	@Test
-	public void moveForwardNightBusinessHourNextDay() {
+	void moveForwardNightBusinessHourNextDay() {
 		final ComputationContext context = new ComputationContext(new ArrayList<>(), newRanges(0, 10, 12, 14, 22, 24));
 		context.reset(getDate(2014, 03, 03));
 		Assertions.assertEquals(26 * DateUtils.MILLIS_PER_HOUR, context.moveForward(getDate(2014, 03, 04, 15, 0, 0)));
@@ -310,7 +310,7 @@ public class ComputationContextTest extends AbstractDataGeneratorTest {
 	}
 
 	@Test
-	public void moveForwardNightBusinessHourNextWeek() {
+	void moveForwardNightBusinessHourNextWeek() {
 		final ComputationContext context = new ComputationContext(new ArrayList<>(), newRanges(0, 10, 22, 23));
 		context.reset(getDate(2014, 03, 03, 7, 0, 0));
 
@@ -326,7 +326,7 @@ public class ComputationContextTest extends AbstractDataGeneratorTest {
 	}
 
 	@Test
-	public void moveForwardToNext2DayBusinessHour() {
+	void moveForwardToNext2DayBusinessHour() {
 		final ComputationContext context = new ComputationContext(new ArrayList<>(), newRanges(9, 12, 14, 18));
 		context.reset(getDate(2014, 03, 03));
 		Assertions.assertEquals(18 * DateUtils.MILLIS_PER_HOUR, context.moveForward(getDate(2014, 03, 05, 15, 0, 0)));
@@ -335,7 +335,7 @@ public class ComputationContextTest extends AbstractDataGeneratorTest {
 	}
 
 	@Test
-	public void moveForwardInsideNonBusinessHoursAndDays() {
+	void moveForwardInsideNonBusinessHoursAndDays() {
 		final List<Date> holidays = new ArrayList<>();
 		holidays.add(getDate(2014, 03, 06));
 		holidays.add(getDate(2014, 03, 07));
@@ -349,7 +349,7 @@ public class ComputationContextTest extends AbstractDataGeneratorTest {
 	}
 
 	@Test
-	public void moveForwardInsideNonBusinessHoursAndDaysHolidayAfterEOW() {
+	void moveForwardInsideNonBusinessHoursAndDaysHolidayAfterEOW() {
 		final List<Date> holidays = new ArrayList<>();
 		holidays.add(getDate(2014, 03, 06));
 		holidays.add(getDate(2014, 03, 07));
@@ -365,7 +365,7 @@ public class ComputationContextTest extends AbstractDataGeneratorTest {
 	}
 
 	@Test
-	public void moveForwardInsideNonBusinessHoursAndDaysStickyRanges() {
+	void moveForwardInsideNonBusinessHoursAndDaysStickyRanges() {
 		final List<Date> holidays = new ArrayList<>();
 		holidays.add(getDate(2014, 03, 06));
 		holidays.add(getDate(2014, 03, 07));
@@ -379,7 +379,7 @@ public class ComputationContextTest extends AbstractDataGeneratorTest {
 	}
 
 	@Test
-	public void moveForwardInsideNonBusinessHoursAndDaysStickyRanges2() {
+	void moveForwardInsideNonBusinessHoursAndDaysStickyRanges2() {
 		final List<Date> holidays = new ArrayList<>();
 		holidays.add(getDate(2014, 03, 06));
 		holidays.add(getDate(2014, 03, 07));

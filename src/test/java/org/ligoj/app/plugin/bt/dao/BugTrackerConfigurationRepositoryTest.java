@@ -36,7 +36,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @ContextConfiguration(locations = "classpath:/META-INF/spring/application-context-test.xml")
 @Rollback
 @Transactional
-public class BugTrackerConfigurationRepositoryTest extends AbstractAppTest {
+class BugTrackerConfigurationRepositoryTest extends AbstractAppTest {
 
 	@Autowired
 	private BugTrackerConfigurationRepository repository;
@@ -48,14 +48,14 @@ public class BugTrackerConfigurationRepositoryTest extends AbstractAppTest {
 	private HolidayRepository holidayRepository;
 
 	@BeforeEach
-	public void prepareData() throws IOException {
+	void prepareData() throws IOException {
 		persistEntities("csv", new Class[] { Calendar.class, Holiday.class, Node.class, Project.class,
 				Subscription.class, BugTrackerConfiguration.class, BusinessHours.class, Sla.class },
 				StandardCharsets.UTF_8.name());
 	}
 
 	@Test
-	public void testOnlyForCoverageJpa() {
+	void testOnlyForCoverageJpa() {
 		Assertions.assertNotNull(slaRepository.findAll().iterator().next().getConfiguration());
 		Assertions.assertNotNull(holidayRepository.findAll().iterator().next().getCalendar());
 		new Calendar().setHolidays(Collections.emptyList());
@@ -64,7 +64,7 @@ public class BugTrackerConfigurationRepositoryTest extends AbstractAppTest {
 	}
 
 	@Test
-	public void findBySubscriptionFetch() {
+	void findBySubscriptionFetch() {
 		final int subscription = em
 				.createQuery(
 						"SELECT s.id FROM Subscription s WHERE s.project.name = ?1 AND s.node.id LIKE CONCAT(?2,'%')",

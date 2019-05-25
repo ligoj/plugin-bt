@@ -13,12 +13,12 @@ import org.junit.jupiter.api.Test;
 /**
  * {@link IdentifierHelper} test class
  */
-public class IdentifierHelperTest {
+class IdentifierHelperTest {
 
 	private final IdentifierHelper identifierHelper = new IdentifierHelper();
 
 	@Test
-	public void testToIdentifiersMultipleWithNotFound() {
+	void testToIdentifiersMultipleWithNotFound() {
 		final Map<Integer, String> allStatus = new HashMap<>();
 		allStatus.put(1, "Open");
 		allStatus.put(2, "Closed");
@@ -31,7 +31,7 @@ public class IdentifierHelperTest {
 	}
 
 	@Test
-	public void testToIdentifiersSimpleWihtMultipleMatches() {
+	void testToIdentifiersSimpleWihtMultipleMatches() {
 		final Map<Integer, String> allStatus = new HashMap<>();
 		allStatus.put(1, "Open");
 		allStatus.put(2, "Closed");
@@ -45,7 +45,7 @@ public class IdentifierHelperTest {
 	}
 
 	@Test
-	public void testToIdentifiersSimple() {
+	void testToIdentifiersSimple() {
 		final Map<Integer, String> allStatus = new HashMap<>();
 		allStatus.put(1, "Open");
 		allStatus.put(2, "Closed");

@@ -52,7 +52,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @ContextConfiguration(locations = "classpath:/META-INF/spring/application-context-test.xml")
 @Rollback
 @Transactional
-public class BugTrackerResourceTest extends AbstractAppTest {
+class BugTrackerResourceTest extends AbstractAppTest {
 
 	@Autowired
 	private BugTrackerResource resource;
@@ -84,7 +84,7 @@ public class BugTrackerResourceTest extends AbstractAppTest {
 	private int subscription;
 
 	@BeforeEach
-	public void prepareSubscription() throws IOException {
+	void prepareSubscription() throws IOException {
 		persistSystemEntities();
 		persistEntities("csv", new Class[] { Calendar.class, Holiday.class, Node.class, Project.class, Subscription.class,
 				BugTrackerConfiguration.class, BusinessHours.class, Sla.class }, StandardCharsets.UTF_8.name());
@@ -95,12 +95,12 @@ public class BugTrackerResourceTest extends AbstractAppTest {
 	 * Return the subscription identifier of MDA. Assumes there is only one
 	 * subscription for a service.
 	 */
-	protected int getSubscription(final String project) {
+	private int getSubscription(final String project) {
 		return getSubscription(project, BugTrackerResource.SERVICE_KEY);
 	}
 
 	@Test
-	public void getConfiguration() throws Exception {
+	void getConfiguration() throws Exception {
 
 		slaRepository.findBySubscription(subscription).get(0).setTypes("Bug,New Feature");
 		slaRepository.findBySubscription(subscription).get(0).setPriorities("Blocker,Critical");
@@ -183,14 +183,14 @@ public class BugTrackerResourceTest extends AbstractAppTest {
 	}
 
 	@Test
-	public void deleteUnknown() {
+	void deleteUnknown() {
 		Assertions.assertThrows(JpaObjectRetrievalFailureException.class, () -> {
 			resource.delete(-1, false);
 		});
 	}
 
 	@Test
-	public void delete() {
+	void delete() {
 		final Project project = new Project();
 		project.setName("TEST");
 		project.setPkey("test");
@@ -233,7 +233,7 @@ public class BugTrackerResourceTest extends AbstractAppTest {
 	}
 
 	@Test
-	public void createCreateDefault() {
+	void createCreateDefault() {
 		slaRepository.deleteAll();
 		repository.deleteAll();
 		businessHoursRepository.deleteAll();
@@ -296,16 +296,16 @@ public class BugTrackerResourceTest extends AbstractAppTest {
 	}
 
 	@Test
-	public void create() {
+	void create() {
 		createOrLink(subscription -> resource.create(subscription.getId()));
 	}
 
 	@Test
-	public void link() {
+	void link() {
 		createOrLink(subscription -> resource.link(subscription.getId()));
 	}
 
-	public void createOrLink(final Consumer<Subscription> function) {
+	void createOrLink(final Consumer<Subscription> function) {
 
 		final Project project = new Project();
 		project.setName("TEST");
@@ -347,7 +347,7 @@ public class BugTrackerResourceTest extends AbstractAppTest {
 	}
 
 	@Test
-	public void addSla() {
+	void addSla() {
 		em.flush();
 		em.clear();
 		final SlaEditionVo vo = new SlaEditionVo();
@@ -375,7 +375,7 @@ public class BugTrackerResourceTest extends AbstractAppTest {
 	}
 
 	@Test
-	public void deleteSla() {
+	void deleteSla() {
 		final int id = slaRepository.findBySubscription(subscription).iterator().next().getId();
 		em.flush();
 		em.clear();
@@ -386,7 +386,7 @@ public class BugTrackerResourceTest extends AbstractAppTest {
 	}
 
 	@Test
-	public void addSlaBoundStart() {
+	void addSlaBoundStart() {
 		final SlaEditionVo vo = new SlaEditionVo();
 		vo.setName("AA");
 		vo.setStart(identifierHelper.asList("Open"));
@@ -402,7 +402,7 @@ public class BugTrackerResourceTest extends AbstractAppTest {
 	}
 
 	@Test
-	public void addSlaBoundEnd() {
+	void addSlaBoundEnd() {
 		final SlaEditionVo vo = new SlaEditionVo();
 		vo.setName("AA");
 		vo.setStart(identifierHelper.asList("Open"));
@@ -418,7 +418,7 @@ public class BugTrackerResourceTest extends AbstractAppTest {
 	}
 
 	@Test
-	public void updateSla() {
+	void updateSla() {
 		final Sla oldEntity = slaRepository.findBySubscription(subscription).get(0);
 		final SlaEditionVo vo = new SlaEditionVo();
 		vo.setName("AA");
@@ -447,7 +447,7 @@ public class BugTrackerResourceTest extends AbstractAppTest {
 	}
 
 	@Test
-	public void addBusinessHours() {
+	void addBusinessHours() {
 		final BusinessHoursEditionVo vo = new BusinessHoursEditionVo();
 		vo.setStart(1);
 		vo.setEnd(2);
@@ -465,7 +465,7 @@ public class BugTrackerResourceTest extends AbstractAppTest {
 	}
 
 	@Test
-	public void updateBusinessHours() {
+	void updateBusinessHours() {
 		final BusinessHours oldEntity = repository.findBySubscription(subscription).getBusinessHours().iterator().next();
 		final BusinessHoursEditionVo vo = new BusinessHoursEditionVo();
 		vo.setStart(1);
@@ -484,7 +484,7 @@ public class BugTrackerResourceTest extends AbstractAppTest {
 	}
 
 	@Test
-	public void addBusinessHoursOverlapsStart() {
+	void addBusinessHoursOverlapsStart() {
 		final BusinessHoursEditionVo vo = new BusinessHoursEditionVo();
 		vo.setStart(10 * DateUtils.MILLIS_PER_HOUR);
 		vo.setEnd(23 * DateUtils.MILLIS_PER_HOUR);
@@ -497,7 +497,7 @@ public class BugTrackerResourceTest extends AbstractAppTest {
 	}
 
 	@Test
-	public void addBusinessHoursOverlapsEnd() {
+	void addBusinessHoursOverlapsEnd() {
 		final BusinessHoursEditionVo vo = new BusinessHoursEditionVo();
 		vo.setStart(2 * DateUtils.MILLIS_PER_HOUR);
 		vo.setEnd(1 * DateUtils.MILLIS_PER_HOUR);
@@ -510,7 +510,7 @@ public class BugTrackerResourceTest extends AbstractAppTest {
 	}
 
 	@Test
-	public void deleteBusinessHours() {
+	void deleteBusinessHours() {
 		Assertions.assertEquals(2, repository.findBySubscription(subscription).getBusinessHours().size());
 		final int id = repository.findBySubscription(subscription).getBusinessHours().iterator().next().getId();
 		em.flush();
@@ -522,7 +522,7 @@ public class BugTrackerResourceTest extends AbstractAppTest {
 	}
 
 	@Test
-	public void deleteLastBusinessHours() {
+	void deleteLastBusinessHours() {
 		Assertions.assertEquals(2, repository.findBySubscription(subscription).getBusinessHours().size());
 		final int id0 = repository.findBySubscription(subscription).getBusinessHours().iterator().next().getId();
 		em.flush();
@@ -542,7 +542,7 @@ public class BugTrackerResourceTest extends AbstractAppTest {
 	}
 
 	@Test
-	public void setCalendar() {
+	void setCalendar() {
 		final Calendar calendar = new Calendar();
 		calendar.setName("Any");
 		calendarRepository.saveAndFlush(calendar);
@@ -557,7 +557,7 @@ public class BugTrackerResourceTest extends AbstractAppTest {
 	}
 
 	@Test
-	public void getCalendars() {
+	void getCalendars() {
 		final Calendar calendar2 = new Calendar();
 		calendar2.setName("Any2");
 		calendarRepository.saveAndFlush(calendar2);
@@ -573,7 +573,7 @@ public class BugTrackerResourceTest extends AbstractAppTest {
 	}
 
 	@Test
-	public void getInstalledEntities() {
+	void getInstalledEntities() {
 		resource.getInstalledEntities().contains(Holiday.class);
 		resource.getInstalledEntities().contains(Calendar.class);
 	}

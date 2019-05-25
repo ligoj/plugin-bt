@@ -25,17 +25,17 @@ import org.ligoj.bootstrap.AbstractDataGeneratorTest;
  * Start : 2, 4<br>
  * Stop : 6
  */
-public class SlaProcessorTest extends AbstractDataGeneratorTest {
+class SlaProcessorTest extends AbstractDataGeneratorTest {
 
 	private SlaProcessor processor = new SlaProcessor();
 
 	@BeforeEach
-	public void setupAutoWired() {
+	void setupAutoWired() {
 		processor.identifierHelper = new IdentifierHelper();
 	}
 
 	@Test
-	public void processNoIssue() {
+	void processNoIssue() {
 		final SlaComputations process = processor.process(new ArrayList<>(), new ArrayList<>(), new ArrayList<>(),
 				new ArrayList<>());
 		Assertions.assertEquals(0, process.getIssues().size());
@@ -43,7 +43,7 @@ public class SlaProcessorTest extends AbstractDataGeneratorTest {
 	}
 
 	@Test
-	public void processNoSla() {
+	void processNoSla() {
 		final List<ChangeItem> changes = new ArrayList<>();
 		changes.add(newChangeItem(1, 2));
 		changes.add(newChangeItem(2, 3));
@@ -54,7 +54,7 @@ public class SlaProcessorTest extends AbstractDataGeneratorTest {
 	}
 
 	@Test
-	public void processInvalidChangesInitial() {
+	void processInvalidChangesInitial() {
 		final List<ChangeItem> changes = new ArrayList<>();
 		changes.add(newChangeItem(1, 2));
 		changes.add(newChangeItem(1, 3));
@@ -65,7 +65,7 @@ public class SlaProcessorTest extends AbstractDataGeneratorTest {
 	}
 
 	@Test
-	public void processInvalidChanges() {
+	void processInvalidChanges() {
 		final List<ChangeItem> changes = new ArrayList<>();
 		changes.add(newChangeItem(1, 2));
 		changes.add(newChangeItem(2, 3));
@@ -80,7 +80,7 @@ public class SlaProcessorTest extends AbstractDataGeneratorTest {
 	 * Simplest SLA.
 	 */
 	@Test
-	public void process() {
+	void process() {
 		final List<ChangeItem> changes = new ArrayList<>();
 		changes.add(newChangeItem(1, 2, 0)); // Start [2s]
 		changes.add(newChangeItem(2, 3, 1)); // Pause
@@ -101,7 +101,7 @@ public class SlaProcessorTest extends AbstractDataGeneratorTest {
 	 * The due date is after all changes and would be shift with all paused durations.
 	 */
 	@Test
-	public void processRevisedDueDateFuture() {
+	void processRevisedDueDateFuture() {
 		final List<ChangeItem> changes = new ArrayList<>();
 		final Date dueDate = getDate(2014, 7, 21, 1, 0, 0);
 		changes.add(newChangeItem(1, 3, 0, dueDate)); // Ignored pause since timer is not started
@@ -149,7 +149,7 @@ public class SlaProcessorTest extends AbstractDataGeneratorTest {
 	 * The due date is after the end of a pause change and before all pause changes.
 	 */
 	@Test
-	public void processRevisedDueDatePast() {
+	void processRevisedDueDatePast() {
 		final List<ChangeItem> changes = new ArrayList<>();
 		final Date dueDate = getDate(2014, 07, 21, 0, 0, 1);
 		changes.add(newChangeItem(1, 2, 0, dueDate)); // Start
@@ -182,7 +182,7 @@ public class SlaProcessorTest extends AbstractDataGeneratorTest {
 	 * The due date is before the end of the first pause but after its start.
 	 */
 	@Test
-	public void processRevisedDueDateMiddle() {
+	void processRevisedDueDateMiddle() {
 		final List<ChangeItem> changes = new ArrayList<>();
 		final Date dueDate = getDate(2014, 07, 21, 0, 0, 5);
 		changes.add(newChangeItem(1, 3, 0, dueDate)); // Ignored pause since timer is not started
@@ -220,7 +220,7 @@ public class SlaProcessorTest extends AbstractDataGeneratorTest {
 	 * The due date is before the end of the first pause but after its start.
 	 */
 	@Test
-	public void processRevisedDueDateNotStopped() {
+	void processRevisedDueDateNotStopped() {
 		final List<ChangeItem> changes = new ArrayList<>();
 		final Date dueDate = getDate(2014, 07, 21, 0, 0, 5);
 		changes.add(newChangeItem(1, 3, 0, dueDate)); // Ignored pause since timer is not started
@@ -315,7 +315,7 @@ public class SlaProcessorTest extends AbstractDataGeneratorTest {
 	 * Simple SLA with all filters provided.
 	 */
 	@Test
-	public void processFilters() {
+	void processFilters() {
 		final List<ChangeItem> changes = new ArrayList<>();
 		changes.add(newChangeItem(1, 3, 0)); // Ignored pause since timer is not started
 		changes.add(newChangeItem(3, 2, 1)); // Start [2s]
@@ -348,7 +348,7 @@ public class SlaProcessorTest extends AbstractDataGeneratorTest {
 	}
 
 	@Test
-	public void processType() {
+	void processType() {
 		final List<ChangeItem> changes = new ArrayList<>();
 		changes.add(newChangeItem(1, 2));
 
@@ -365,7 +365,7 @@ public class SlaProcessorTest extends AbstractDataGeneratorTest {
 	}
 
 	@Test
-	public void processPriority() {
+	void processPriority() {
 		final List<ChangeItem> changes = new ArrayList<>();
 		changes.add(newChangeItem(1, 2));
 
@@ -382,7 +382,7 @@ public class SlaProcessorTest extends AbstractDataGeneratorTest {
 	}
 
 	@Test
-	public void processResolution() {
+	void processResolution() {
 		final List<ChangeItem> changes = new ArrayList<>();
 		changes.add(newChangeItem(1, 2));
 
