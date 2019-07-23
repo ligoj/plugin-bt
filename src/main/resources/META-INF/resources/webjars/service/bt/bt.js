@@ -712,7 +712,7 @@ define(function () {
 		 * Render Bug tracking data.
 		 */
 		renderFeatures: function (subscription) {
-			return current.$super('renderServicelink')('clock', '#/home/project/' + subscription.project + '/subscription/' + subscription.id, 'service:bt:sla');
+			return current.$super('renderServiceLink')('clock', '#/home/project/' + subscription.project + '/subscription/' + subscription.id, 'service:bt:sla');
 		}
 	};
 	return current;
