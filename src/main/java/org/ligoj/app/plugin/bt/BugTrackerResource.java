@@ -23,7 +23,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.ligoj.app.model.Node;
 import org.ligoj.app.plugin.bt.dao.BugTrackerConfigurationRepository;
@@ -222,18 +221,18 @@ public class BugTrackerResource extends AbstractConfiguredServicePlugin<BugTrack
 
 	private void save(final SlaEditionVo vo, final Sla entity) {
 		DescribedBean.copy(vo, entity);
-		entity.setStop(StringUtils.join(identifierHelper.normalize(vo.getStop()), ','));
-		entity.setStart(StringUtils.join(identifierHelper.normalize(vo.getStart()), ','));
+		entity.setStop(String.join(",", identifierHelper.normalize(vo.getStop())));
+		entity.setStart(String.join(",", identifierHelper.normalize(vo.getStart())));
 		entity.setThreshold(vo.getThreshold());
 		vo.setPause(ObjectUtils.defaultIfNull(vo.getPause(), new ArrayList<>()));
 		vo.setPriorities(ObjectUtils.defaultIfNull(vo.getPriorities(), new ArrayList<>()));
 		vo.setResolutions(ObjectUtils.defaultIfNull(vo.getResolutions(), new ArrayList<>()));
 		vo.setTypes(ObjectUtils.defaultIfNull(vo.getTypes(), new ArrayList<>()));
 		checkSlaBounds(vo);
-		entity.setPause(StringUtils.join(identifierHelper.normalize(vo.getPause()), ','));
-		entity.setPriorities(StringUtils.join(vo.getPriorities(), ','));
-		entity.setResolutions(StringUtils.join(vo.getResolutions(), ','));
-		entity.setTypes(StringUtils.join(vo.getTypes(), ','));
+		entity.setPause(String.join(",", identifierHelper.normalize(vo.getPause())));
+		entity.setPriorities(String.join(",", vo.getPriorities()));
+		entity.setResolutions(String.join(",", vo.getResolutions()));
+		entity.setTypes(String.join(",", vo.getTypes()));
 		slaRepository.saveAndFlush(entity);
 	}
 
