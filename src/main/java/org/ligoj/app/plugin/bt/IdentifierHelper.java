@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.ligoj.app.resource.NormalizeFormat;
@@ -42,7 +41,7 @@ public class IdentifierHelper {
 	 * @return The normalized and sorted items.
 	 */
 	public List<String> normalize(final Collection<String> values) {
-		return values.stream().map(new NormalizeFormat()::format).sorted().collect(Collectors.toList());
+		return values.stream().map(new NormalizeFormat()::format).sorted().toList();
 	}
 
 	/**

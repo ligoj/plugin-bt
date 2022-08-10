@@ -10,7 +10,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.ligoj.app.plugin.bt.model.BusinessHours;
@@ -36,18 +35,14 @@ public class SlaProcessor {
 	/**
 	 * Return SLA computations.
 	 * 
-	 * @param businessHours
-	 *            The business hours.
-	 * @param changes
-	 *            the changes of all issues. Ordered by date.
-	 * @param holidays
-	 *            the non business days.
-	 * @param slas
-	 *            the SLA configurations.
+	 * @param businessHours The business hours.
+	 * @param changes       the changes of all issues. Ordered by date.
+	 * @param holidays      the non business days.
+	 * @param slas          the SLA configurations.
 	 * @return the SLA configuration
 	 */
-	public SlaComputations process(final List<BusinessHours> businessHours, final List<ChangeItem> changes, final List<Date> holidays,
-			final List<Sla> slas) {
+	public SlaComputations process(final List<BusinessHours> businessHours, final List<ChangeItem> changes,
+			final List<Date> holidays, final List<Sla> slas) {
 
 		// Compute elapsed times
 		final Map<Integer, IssueStatus> groupChanges = computedElapsedTimes(changes, holidays, businessHours);
@@ -59,20 +54,19 @@ public class SlaProcessor {
 	/**
 	 * Compute SLA for each issue, based on the given status changes.
 	 */
-	private SlaComputations computeSlas(final Map<Integer, IssueStatus> groupChanges, final List<Sla> slas, final List<Date> holidays,
-			final List<BusinessHours> nonBusinessHours) {
+	private SlaComputations computeSlas(final Map<Integer, IssueStatus> groupChanges, final List<Sla> slas,
+			final List<Date> holidays, final List<BusinessHours> nonBusinessHours) {
 		final SlaComputations result = new SlaComputations();
 		result.setSlaConfigurations(toSlaConfiguration(slas));
-		result.setIssues(
-				groupChanges.values().stream().map(issue -> getIssueSlas(issue, slas, holidays, nonBusinessHours)).collect(Collectors.toList()));
+		result.setIssues(groupChanges.values().stream()
+				.map(issue -> getIssueSlas(issue, slas, holidays, nonBusinessHours)).toList());
 		return result;
 	}
 
 	/**
 	 * Prepare SLA configuration to optimize the computations.
 	 * 
-	 * @param slas
-	 *            the fresh SLA entities.
+	 * @param slas the fresh SLA entities.
 	 * @return the SLA configuration where status identifiers have been resolved to text. Paused statuses are ordered.
 	 */
 	public List<SlaConfiguration> toSlaConfiguration(final List<Sla> slas) {
@@ -160,24 +154,21 @@ public class SlaProcessor {
 	/**
 	 * Check the SLA can be applied for this issue.
 	 * 
-	 * @param issue
-	 *            the current issue to check.
-	 * @param sla
-	 *            the SLA to compute.
+	 * @param issue the current issue to check.
+	 * @param sla   the SLA to compute.
 	 * @return <code>true</code> if SLA can be applied to this issue.
 	 */
 	private boolean checkAppliance(final IssueStatus issue, final Sla sla) {
-		return checkAppliance(issue.getType(), sla.getTypesAsSet()) && checkAppliance(issue.getPriority(), sla.getPrioritiesAsSet())
+		return checkAppliance(issue.getType(), sla.getTypesAsSet())
+				&& checkAppliance(issue.getPriority(), sla.getPrioritiesAsSet())
 				&& checkAppliance(issue.getResolution(), sla.getResolutionsAsSet());
 	}
 
 	/**
 	 * Check the value against the filtered ones.
 	 * 
-	 * @param identifier
-	 *            the current issue to check.
-	 * @param filteredIdentifiers
-	 *            the filtered identifiers.
+	 * @param identifier          the current issue to check.
+	 * @param filteredIdentifiers the filtered identifiers.
 	 * @return <code>true</code> there is no filtered identifiers or when the given identifier is in the filtered
 	 *         identifiers.
 	 */
@@ -188,8 +179,8 @@ public class SlaProcessor {
 	/**
 	 * Return the elapsed time for the given SLA and issue or <code>null</code> if SLA cannot be applied for this issue.
 	 */
-	private SlaData getSlaDuration(final IssueStatus issue, final Sla sla, final List<Date> holidays, final List<BusinessHours> nonBusinessHours,
-			final Date now) {
+	private SlaData getSlaDuration(final IssueStatus issue, final Sla sla, final List<Date> holidays,
+			final List<BusinessHours> nonBusinessHours, final Date now) {
 		boolean started = false;
 		boolean paused = false;
 		final ComputationContext computationContext = new ComputationContext(holidays, nonBusinessHours);
@@ -263,7 +254,8 @@ public class SlaProcessor {
 	/**
 	 * Update the pause context.
 	 */
-	private void updatePause(final SlaData result, final StatusChange change, final ComputationContext computationContext) {
+	private void updatePause(final SlaData result, final StatusChange change,
+			final ComputationContext computationContext) {
 		if (result.getRevisedDueDate() != null && result.getRevisedDueDate().after(change.getChange().getCreated())) {
 			resetRevisedDueDate(computationContext, result);
 
@@ -347,13 +339,14 @@ public class SlaProcessor {
 		if (change.getFromStatus() != statusChange.getStatus()) {
 			if (value.getChanges().size() == 1) {
 				// The initial state was not correct, fix it
-				log.info("Initial state of issue " + value.getPkey() + " (" + change.getId() + ") has been updated : " + statusChange.getStatus()
-						+ "-> " + change.getFromStatus());
+				log.info("Initial state of issue " + value.getPkey() + " (" + change.getId() + ") has been updated : "
+						+ statusChange.getStatus() + "-> " + change.getFromStatus());
 				statusChange.setStatus(change.getFromStatus());
 			} else {
 				// The initial state was not correct, fix it
-				log.info("Broken state of issue " + value.getPkey() + " (" + change.getId() + ") has been updated : " + statusChange.getStatus()
-						+ "-> " + change.getFromStatus() + " to match the transition " + change.getFromStatus() + "->" + change.getToStatus());
+				log.info("Broken state of issue " + value.getPkey() + " (" + change.getId() + ") has been updated : "
+						+ statusChange.getStatus() + "-> " + change.getFromStatus() + " to match the transition "
+						+ change.getFromStatus() + "->" + change.getToStatus());
 				statusChange.setStatus(change.getFromStatus());
 			}
 		}
