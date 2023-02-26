@@ -10,7 +10,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
 
-import javax.transaction.Transactional;
+import jakarta.transaction.Transactional;
 
 import org.apache.commons.lang3.time.DateUtils;
 import org.junit.jupiter.api.Assertions;
@@ -86,8 +86,8 @@ class BugTrackerResourceTest extends AbstractAppTest {
 	@BeforeEach
 	void prepareSubscription() throws IOException {
 		persistSystemEntities();
-		persistEntities("csv", new Class[] { Calendar.class, Holiday.class, Node.class, Project.class, Subscription.class,
-				BugTrackerConfiguration.class, BusinessHours.class, Sla.class }, StandardCharsets.UTF_8.name());
+		persistEntities("csv", new Class[]{Calendar.class, Holiday.class, Node.class, Project.class, Subscription.class,
+				BugTrackerConfiguration.class, BusinessHours.class, Sla.class}, StandardCharsets.UTF_8.name());
 		this.subscription = getSubscription("MDA");
 	}
 
@@ -184,9 +184,7 @@ class BugTrackerResourceTest extends AbstractAppTest {
 
 	@Test
 	void deleteUnknown() {
-		Assertions.assertThrows(JpaObjectRetrievalFailureException.class, () -> {
-			resource.delete(-1, false);
-		});
+		Assertions.assertThrows(JpaObjectRetrievalFailureException.class, () -> resource.delete(-1, false));
 	}
 
 	@Test
@@ -396,9 +394,7 @@ class BugTrackerResourceTest extends AbstractAppTest {
 		vo.setSubscription(subscription);
 		em.flush();
 		em.clear();
-		MatcherUtil.assertThrows(Assertions.assertThrows(ValidationJsonException.class, () -> {
-			resource.addSla(vo);
-		}), "start", "SlaBound");
+		MatcherUtil.assertThrows(Assertions.assertThrows(ValidationJsonException.class, () -> resource.addSla(vo)), "start", "SlaBound");
 	}
 
 	@Test
@@ -412,9 +408,7 @@ class BugTrackerResourceTest extends AbstractAppTest {
 		vo.setSubscription(subscription);
 		em.flush();
 		em.clear();
-		MatcherUtil.assertThrows(Assertions.assertThrows(ValidationJsonException.class, () -> {
-			resource.addSla(vo);
-		}), "stop", "SlaBound");
+		MatcherUtil.assertThrows(Assertions.assertThrows(ValidationJsonException.class, () -> resource.addSla(vo)), "stop", "SlaBound");
 	}
 
 	@Test
@@ -491,22 +485,18 @@ class BugTrackerResourceTest extends AbstractAppTest {
 		vo.setSubscription(subscription);
 		em.flush();
 		em.clear();
-		MatcherUtil.assertThrows(Assertions.assertThrows(ValidationJsonException.class, () -> {
-			resource.addBusinessHours(vo);
-		}), "start", "Overlap");
+		MatcherUtil.assertThrows(Assertions.assertThrows(ValidationJsonException.class, () -> resource.addBusinessHours(vo)), "start", "Overlap");
 	}
 
 	@Test
 	void addBusinessHoursOverlapsEnd() {
 		final BusinessHoursEditionVo vo = new BusinessHoursEditionVo();
 		vo.setStart(2 * DateUtils.MILLIS_PER_HOUR);
-		vo.setEnd(1 * DateUtils.MILLIS_PER_HOUR);
+		vo.setEnd(DateUtils.MILLIS_PER_HOUR);
 		vo.setSubscription(subscription);
 		em.flush();
 		em.clear();
-		MatcherUtil.assertThrows(Assertions.assertThrows(ValidationJsonException.class, () -> {
-			resource.addBusinessHours(vo);
-		}), "stop", "Overlap");
+		MatcherUtil.assertThrows(Assertions.assertThrows(ValidationJsonException.class, () -> resource.addBusinessHours(vo)), "stop", "Overlap");
 	}
 
 	@Test
@@ -536,9 +526,8 @@ class BugTrackerResourceTest extends AbstractAppTest {
 
 		// Try to delete the last one
 		final int id = repository.findBySubscription(subscription).getBusinessHours().iterator().next().getId();
-		Assertions.assertEquals("service:bt:no-business-hours", Assertions.assertThrows(BusinessException.class, () -> {
-			resource.deleteBusinessHours(id);
-		}).getMessage());
+		Assertions.assertEquals("service:bt:no-business-hours", Assertions.assertThrows(BusinessException.class,
+				() -> resource.deleteBusinessHours(id)).getMessage());
 	}
 
 	@Test
@@ -574,7 +563,7 @@ class BugTrackerResourceTest extends AbstractAppTest {
 
 	@Test
 	void getInstalledEntities() {
-		resource.getInstalledEntities().contains(Holiday.class);
-		resource.getInstalledEntities().contains(Calendar.class);
+		Assertions.assertTrue(resource.getInstalledEntities().contains(Holiday.class));
+		Assertions.assertTrue(resource.getInstalledEntities().contains(Calendar.class));
 	}
 }

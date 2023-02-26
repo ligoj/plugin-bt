@@ -27,7 +27,7 @@ import org.ligoj.bootstrap.AbstractDataGeneratorTest;
  */
 class SlaProcessorTest extends AbstractDataGeneratorTest {
 
-	private SlaProcessor processor = new SlaProcessor();
+	private final SlaProcessor processor = new SlaProcessor();
 
 	@BeforeEach
 	void setupAutoWired() {
@@ -98,7 +98,7 @@ class SlaProcessorTest extends AbstractDataGeneratorTest {
 	}
 
 	/**
-	 * The due date is after all changes and would be shift with all paused durations.
+	 * The due date is after all changes and would be shifted with all paused durations.
 	 */
 	@Test
 	void processRevisedDueDateFuture() {
@@ -151,7 +151,7 @@ class SlaProcessorTest extends AbstractDataGeneratorTest {
 	@Test
 	void processRevisedDueDatePast() {
 		final List<ChangeItem> changes = new ArrayList<>();
-		final Date dueDate = getDate(2014, 07, 21, 0, 0, 1);
+		final Date dueDate = getDate(2014, 7, 21, 0, 0, 1);
 		changes.add(newChangeItem(1, 2, 0, dueDate)); // Start
 		changes.add(newChangeItem(2, 3, 1, dueDate)); // Pause [2s]
 		changes.add(newChangeItem(3, 4, 2, dueDate)); // Restart
@@ -171,10 +171,10 @@ class SlaProcessorTest extends AbstractDataGeneratorTest {
 		Assertions.assertEquals(dueDate, issueSla.getDueDate());
 
 		// Unchanged due date
-		Assertions.assertEquals(getDate(2014, 07, 21, 0, 0, 1), slaData.getRevisedDueDate());
+		Assertions.assertEquals(getDate(2014, 7, 21, 0, 0, 1), slaData.getRevisedDueDate());
 
-		Assertions.assertEquals(getDate(2014, 07, 21, 0, 0, 0), slaData.getStart());
-		Assertions.assertEquals(getDate(2014, 07, 21, 0, 0, 8), slaData.getStop());
+		Assertions.assertEquals(getDate(2014, 7, 21, 0, 0, 0), slaData.getStart());
+		Assertions.assertEquals(getDate(2014, 7, 21, 0, 0, 8), slaData.getStop());
 		Assertions.assertEquals(-7000, slaData.getRevisedDueDateDistance().longValue());
 	}
 
@@ -184,7 +184,7 @@ class SlaProcessorTest extends AbstractDataGeneratorTest {
 	@Test
 	void processRevisedDueDateMiddle() {
 		final List<ChangeItem> changes = new ArrayList<>();
-		final Date dueDate = getDate(2014, 07, 21, 0, 0, 5);
+		final Date dueDate = getDate(2014, 7, 21, 0, 0, 5);
 		changes.add(newChangeItem(1, 3, 0, dueDate)); // Ignored pause since timer is not started
 		changes.add(newChangeItem(3, 2, 1, dueDate)); // Start [2s]
 		changes.add(newChangeItem(2, 3, 2, dueDate)); // Pause
@@ -210,9 +210,9 @@ class SlaProcessorTest extends AbstractDataGeneratorTest {
 		Assertions.assertEquals(dueDate, issueSla.getDueDate());
 
 		// Due date shift : 4 seconds
-		Assertions.assertEquals(getDate(2014, 07, 21, 0, 0, 7), slaData.getRevisedDueDate());
-		Assertions.assertEquals(getDate(2014, 07, 21, 0, 0, 2), slaData.getStart());
-		Assertions.assertEquals(getDate(2014, 07, 21, 0, 0, 20), slaData.getStop());
+		Assertions.assertEquals(getDate(2014, 7, 21, 0, 0, 7), slaData.getRevisedDueDate());
+		Assertions.assertEquals(getDate(2014, 7, 21, 0, 0, 2), slaData.getStart());
+		Assertions.assertEquals(getDate(2014, 7, 21, 0, 0, 20), slaData.getStop());
 		Assertions.assertEquals(-(20 - 7) * DateUtils.MILLIS_PER_SECOND, slaData.getRevisedDueDateDistance().longValue());
 	}
 
@@ -222,7 +222,7 @@ class SlaProcessorTest extends AbstractDataGeneratorTest {
 	@Test
 	void processRevisedDueDateNotStopped() {
 		final List<ChangeItem> changes = new ArrayList<>();
-		final Date dueDate = getDate(2014, 07, 21, 0, 0, 5);
+		final Date dueDate = getDate(2014, 7, 21, 0, 0, 5);
 		changes.add(newChangeItem(1, 3, 0, dueDate)); // Ignored pause since timer is not started
 		changes.add(newChangeItem(3, 2, 1, dueDate)); // Start [2s]
 		changes.add(newChangeItem(2, 3, 2, dueDate)); // Pause
@@ -245,8 +245,8 @@ class SlaProcessorTest extends AbstractDataGeneratorTest {
 		Assertions.assertEquals(dueDate, issueSla.getDueDate());
 
 		// Due date shift : 4 seconds
-		Assertions.assertEquals(getDate(2014, 07, 21, 0, 0, 7), slaData.getRevisedDueDate());
-		Assertions.assertEquals(getDate(2014, 07, 21, 0, 0, 2), slaData.getStart());
+		Assertions.assertEquals(getDate(2014, 7, 21, 0, 0, 7), slaData.getRevisedDueDate());
+		Assertions.assertEquals(getDate(2014, 7, 21, 0, 0, 2), slaData.getStart());
 		Assertions.assertNull(slaData.getStop());
 		Assertions.assertTrue(slaData.getRevisedDueDateDistance() < -47800000000L);
 	}
@@ -290,7 +290,7 @@ class SlaProcessorTest extends AbstractDataGeneratorTest {
 	// Add a status change
 	private ChangeItem newChangeItem(final int from, final int to, final int shift, final Date dueDate) {
 		final ChangeItem changeItem = new ChangeItem();
-		changeItem.setCreated(getDate(2014, 07, 21, 0, 0, shift * 2));
+		changeItem.setCreated(getDate(2014, 7, 21, 0, 0, shift * 2));
 		changeItem.setFromStatus(from);
 		changeItem.setToStatus(to);
 		changeItem.setStatus(to);
@@ -388,7 +388,7 @@ class SlaProcessorTest extends AbstractDataGeneratorTest {
 
 		final List<Sla> slas = newSla();
 		final Sla sla = slas.get(0);
-		sla.setResolutions("Wont't Fix");
+		sla.setResolutions("Won't Fix");
 		sla.getResolutionsAsSet().add(2);
 
 		final SlaComputations process = processor.process(new ArrayList<>(), changes, new ArrayList<>(), slas);

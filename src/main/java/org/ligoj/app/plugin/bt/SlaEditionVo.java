@@ -5,9 +5,9 @@ package org.ligoj.app.plugin.bt;
 
 import java.util.List;
 
-import javax.validation.constraints.Positive;
-import javax.validation.constraints.PositiveOrZero;
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.Size;
 
 import org.ligoj.bootstrap.core.DescribedBean;
 
