@@ -87,7 +87,7 @@ class BugTrackerResourceTest extends AbstractAppTest {
 	void prepareSubscription() throws IOException {
 		persistSystemEntities();
 		persistEntities("csv", new Class[]{Calendar.class, Holiday.class, Node.class, Project.class, Subscription.class,
-				BugTrackerConfiguration.class, BusinessHours.class, Sla.class}, StandardCharsets.UTF_8.name());
+				BugTrackerConfiguration.class, BusinessHours.class, Sla.class}, StandardCharsets.UTF_8);
 		this.subscription = getSubscription("MDA");
 	}
 

@@ -27,12 +27,12 @@ public class ComputationContext {
 	private Date cursor;
 
 	/**
-	 * The non business days. Each day must be set to start of the day position.
+	 * The non-business days. Each day must be set to start of the day position.
 	 */
 	private final List<Date> holidays;
 
 	/**
-	 * The non business hour ranges. Never empty or must be sorted.
+	 * The non-business hour ranges. Never empty or must be sorted.
 	 */
 	private final List<BusinessHours> businessHours;
 
@@ -122,7 +122,7 @@ public class ComputationContext {
 	}
 
 	/**
-	 * Return the next business day : business day of week and not an holiday. No updated delta.
+	 * Return the next business day : business day of week and not a holiday. No updated delta.
 	 */
 	private void moveToNextBusinessDay() {
 		Date previousDate;
@@ -134,7 +134,7 @@ public class ComputationContext {
 	}
 
 	/**
-	 * Move the date to the next day that is not an holiday. No updated delta.
+	 * Move the date to the next day that is not a holiday. No updated delta.
 	 */
 	private void moveToNextNotHoliday() {
 		while (holidayCursor < holidays.size()) {
@@ -144,10 +144,10 @@ public class ComputationContext {
 				break;
 			}
 
-			// Either it's an holiday, either we have to skip increase cursor
+			// Either it's a holiday, either we have to skip increase cursor
 			holidayCursor++;
 			if (DateUtils.isSameDay(holiday, cursor)) {
-				// The date is an holiday, go to the next day 00:00 00.000
+				// The date is a holiday, go to the next day 00:00 00.000
 				moveToTomorrow();
 			}
 			// The holiday cursor is too old, advance it only

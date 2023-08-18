@@ -20,7 +20,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Non business hours range.
+ * Non-business hours range.
  */
 @Getter
 @Setter

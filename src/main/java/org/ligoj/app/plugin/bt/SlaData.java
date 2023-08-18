@@ -9,7 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * SLA computation for a SLA.
+ * SLA computation for an SLA.
  */
 @Getter
 @Setter

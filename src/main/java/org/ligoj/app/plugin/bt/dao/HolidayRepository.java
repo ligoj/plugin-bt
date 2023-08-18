@@ -16,7 +16,7 @@ import org.springframework.data.jpa.repository.Query;
 public interface HolidayRepository extends RestRepository<Holiday, Integer> {
 
 	/**
-	 * Return all non business date associated to the given project and between two date.
+	 * Return all non-business date associated to the given project and between two date.
 	 * 
 	 * @param subscription
 	 *            The subscription identifier.

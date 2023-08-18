@@ -38,7 +38,7 @@ public class Sla extends AbstractDescribedEntity<Integer> implements Configurabl
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Non business hour range. Required for some computations.
+	 * Non-business hour range. Required for some computations.
 	 */
 	@ManyToOne
 	@NotNull
@@ -48,7 +48,6 @@ public class Sla extends AbstractDescribedEntity<Integer> implements Configurabl
 
 	/**
 	 * Status names to start this SLA, comma separated.
-	 * 
 	 * <code>SELECT DESCRIPTOR FROM `jiraworkflows` WHERE workflowname IN (SELECT WORKFLOW FROM `workflowschemeentity`
 	 *      WHERE SCHEME = (SELECT SINK_NODE_ID FROM `nodeassociation` WHERE SOURCE_NODE_ENTITY = 'Project' AND
 	 *      SOURCE_NODE_ID = '10000' AND SINK_NODE_ENTITY = 'WorkflowScheme')) | grep jira.status.id</code>

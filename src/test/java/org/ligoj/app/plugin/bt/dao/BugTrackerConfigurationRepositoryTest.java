@@ -51,7 +51,7 @@ class BugTrackerConfigurationRepositoryTest extends AbstractAppTest {
 	void prepareData() throws IOException {
 		persistEntities("csv", new Class[] { Calendar.class, Holiday.class, Node.class, Project.class,
 				Subscription.class, BugTrackerConfiguration.class, BusinessHours.class, Sla.class },
-				StandardCharsets.UTF_8.name());
+				StandardCharsets.UTF_8);
 	}
 
 	@Test
@@ -82,12 +82,12 @@ class BugTrackerConfigurationRepositoryTest extends AbstractAppTest {
 		Assertions.assertNotNull(calendar.getId());
 		Assertions.assertTrue(calendar.isAsDefault());
 
-		// Non business hours ranges
+		// Non-business hours ranges
 		final List<BusinessHours> businessHours = bt.getBusinessHours();
 		Assertions.assertTrue(isLazyInitialized(businessHours));
 		Assertions.assertEquals(2, businessHours.size());
 
-		// Non business hours range
+		// Non-business hours range
 		final BusinessHours businessRange1 = businessHours.get(0);
 		Assertions.assertEquals(32400000, businessRange1.getStart());
 		Assertions.assertEquals(43200000, businessRange1.getEnd());

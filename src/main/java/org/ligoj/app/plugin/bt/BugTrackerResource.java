@@ -170,7 +170,7 @@ public class BugTrackerResource extends AbstractConfiguredServicePlugin<BugTrack
 	}
 
 	/**
-	 * Add an holiday to the given {@link Calendar}
+	 * Add a holiday to the given {@link Calendar}
 	 */
 	private void addHoliday(final Calendar entity, final java.util.Calendar calendar, final int month, final int dayOfMonth,
 			final String name) {
@@ -312,7 +312,7 @@ public class BugTrackerResource extends AbstractConfiguredServicePlugin<BugTrack
 	 * Update the business hours : only one range.
 	 * 
 	 * @param id
-	 *            The business hours identifier.
+	 *            The business' hours identifier.
 	 */
 	@DELETE
 	@Path("business-hours/{id:\\d+}")

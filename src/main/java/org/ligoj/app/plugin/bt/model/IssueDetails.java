@@ -11,7 +11,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * A issue status change
+ * An issue status details
  */
 @Getter
 @Setter

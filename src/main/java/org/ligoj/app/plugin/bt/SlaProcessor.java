@@ -37,7 +37,7 @@ public class SlaProcessor {
 	 * 
 	 * @param businessHours The business hours.
 	 * @param changes       the changes of all issues. Ordered by date.
-	 * @param holidays      the non business days.
+	 * @param holidays      the non-business days.
 	 * @param slas          the SLA configurations.
 	 * @return the SLA configuration
 	 */
@@ -124,13 +124,13 @@ public class SlaProcessor {
 	 * For each change, increment the status counter.
 	 */
 	private Map<Integer, Integer> getStatusCounter(final IssueStatus issue) {
-		final Map<Integer, Integer> satusCounter = new HashMap<>();
+		final Map<Integer, Integer> statusCounter = new HashMap<>();
 		for (final StatusChange change : issue.getChanges()) {
 			// Increment the counter for this status
 			final int status = change.getStatus();
-			satusCounter.put(status, ObjectUtils.defaultIfNull(satusCounter.get(status), 0) + 1);
+			statusCounter.put(status, ObjectUtils.defaultIfNull(statusCounter.get(status), 0) + 1);
 		}
-		return satusCounter;
+		return statusCounter;
 	}
 
 	/**
@@ -283,7 +283,7 @@ public class SlaProcessor {
 
 		// Update elapsed time for the tail
 		for (final IssueStatus value : groupChanges.values()) {
-			udpatePreviousStatus(cumulatedElapsed, null, value);
+			updatePreviousStatus(cumulatedElapsed, null, value);
 		}
 		return groupChanges;
 	}
@@ -302,7 +302,7 @@ public class SlaProcessor {
 			final IssueStatus value = getIssueStatus(groupChanges, change);
 
 			// Update the elapsed time in the previous status
-			udpatePreviousStatus(cumulatedElapsed, change, value);
+			updatePreviousStatus(cumulatedElapsed, change, value);
 
 			// Add the new status, even for a creation
 			final StatusChange statusChange = new StatusChange();
@@ -317,7 +317,7 @@ public class SlaProcessor {
 	/**
 	 * Update the elapsed time of previous status.
 	 */
-	private void udpatePreviousStatus(final long cumulatedElapsed, final ChangeItem change, final IssueStatus value) {
+	private void updatePreviousStatus(final long cumulatedElapsed, final ChangeItem change, final IssueStatus value) {
 		if (!value.getChanges().isEmpty()) {
 			// Check previous state
 			final StatusChange statusChange = value.getChanges().get(value.getChanges().size() - 1);

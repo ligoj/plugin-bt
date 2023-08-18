@@ -31,7 +31,7 @@ class IdentifierHelperTest {
 	}
 
 	@Test
-	void testToIdentifiersSimpleWihtMultipleMatches() {
+	void testToIdentifiersSimpleWithMultipleMatches() {
 		final Map<Integer, String> allStatus = new HashMap<>();
 		allStatus.put(1, "Open");
 		allStatus.put(2, "Closed");

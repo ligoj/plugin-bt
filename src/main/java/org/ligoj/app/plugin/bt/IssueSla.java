@@ -12,7 +12,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * A issue with SLA durations.
+ * An issue with SLA durations.
  */
 @Getter
 @Setter
