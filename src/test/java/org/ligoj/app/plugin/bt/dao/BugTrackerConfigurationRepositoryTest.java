@@ -3,13 +3,7 @@
  */
 package org.ligoj.app.plugin.bt.dao;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.Collections;
-import java.util.List;
-
 import jakarta.transaction.Transactional;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,15 +13,16 @@ import org.ligoj.app.model.Node;
 import org.ligoj.app.model.Project;
 import org.ligoj.app.model.Subscription;
 import org.ligoj.app.plugin.bt.BugTrackerResource;
-import org.ligoj.app.plugin.bt.model.BugTrackerConfiguration;
-import org.ligoj.app.plugin.bt.model.BusinessHours;
-import org.ligoj.app.plugin.bt.model.Calendar;
-import org.ligoj.app.plugin.bt.model.Holiday;
-import org.ligoj.app.plugin.bt.model.Sla;
+import org.ligoj.app.plugin.bt.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * {@link BugTrackerConfigurationRepository} test.
@@ -49,7 +44,7 @@ class BugTrackerConfigurationRepositoryTest extends AbstractAppTest {
 
 	@BeforeEach
 	void prepareData() throws IOException {
-		persistEntities("csv", new Class[] { Calendar.class, Holiday.class, Node.class, Project.class,
+		persistEntities("csv", new Class<?>[] { Calendar.class, Holiday.class, Node.class, Project.class,
 				Subscription.class, BugTrackerConfiguration.class, BusinessHours.class, Sla.class },
 				StandardCharsets.UTF_8);
 	}
