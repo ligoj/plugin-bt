@@ -34,7 +34,7 @@ public class SlaProcessor {
 
 	/**
 	 * Return SLA computations.
-	 * 
+	 *
 	 * @param businessHours The business hours.
 	 * @param changes       the changes of all issues. Ordered by date.
 	 * @param holidays      the non-business days.
@@ -65,7 +65,7 @@ public class SlaProcessor {
 
 	/**
 	 * Prepare SLA configuration to optimize the computations.
-	 * 
+	 *
 	 * @param slas the fresh SLA entities.
 	 * @return the SLA configuration where status identifiers have been resolved to text. Paused statuses are ordered.
 	 */
@@ -153,7 +153,7 @@ public class SlaProcessor {
 
 	/**
 	 * Check the SLA can be applied for this issue.
-	 * 
+	 *
 	 * @param issue the current issue to check.
 	 * @param sla   the SLA to compute.
 	 * @return <code>true</code> if SLA can be applied to this issue.
@@ -166,11 +166,11 @@ public class SlaProcessor {
 
 	/**
 	 * Check the value against the filtered ones.
-	 * 
+	 *
 	 * @param identifier          the current issue to check.
 	 * @param filteredIdentifiers the filtered identifiers.
 	 * @return <code>true</code> there is no filtered identifiers or when the given identifier is in the filtered
-	 *         identifiers.
+	 * identifiers.
 	 */
 	private boolean checkAppliance(final Integer identifier, final Set<Integer> filteredIdentifiers) {
 		return filteredIdentifiers.isEmpty() || filteredIdentifiers.contains(identifier);
@@ -275,7 +275,7 @@ public class SlaProcessor {
 			return groupChanges;
 		}
 		final ComputationContext computationContext = new ComputationContext(holidays, nonBusinessHours);
-		computationContext.reset(changes.get(0).getCreated());
+		computationContext.reset(changes.getFirst().getCreated());
 		long cumulatedElapsed = computeElapsedTimes(changes, groupChanges, computationContext);
 
 		// Add elapsed time until now
@@ -320,7 +320,7 @@ public class SlaProcessor {
 	private void updatePreviousStatus(final long cumulatedElapsed, final ChangeItem change, final IssueStatus value) {
 		if (!value.getChanges().isEmpty()) {
 			// Check previous state
-			final StatusChange statusChange = value.getChanges().get(value.getChanges().size() - 1);
+			final StatusChange statusChange = value.getChanges().getLast();
 
 			// Update the elapsed time of previous state
 			updateElapsedTime(cumulatedElapsed, statusChange);
@@ -339,14 +339,13 @@ public class SlaProcessor {
 		if (change.getFromStatus() != statusChange.getStatus()) {
 			if (value.getChanges().size() == 1) {
 				// The initial state was not correct, fix it
-				log.info("Initial state of issue " + value.getPkey() + " (" + change.getId() + ") has been updated : "
-						+ statusChange.getStatus() + "-> " + change.getFromStatus());
+				log.info("Initial state of issue {} ({}) has been updated: {} -> {}", value.getPkey(), change.getId(), statusChange.getStatus(), change.getFromStatus());
 				statusChange.setStatus(change.getFromStatus());
 			} else {
 				// The initial state was not correct, fix it
-				log.info("Broken state of issue " + value.getPkey() + " (" + change.getId() + ") has been updated : "
-						+ statusChange.getStatus() + "-> " + change.getFromStatus() + " to match the transition "
-						+ change.getFromStatus() + "->" + change.getToStatus());
+				log.info("Broken state of issue {} ({}) has been updated: {} -> {} to match the transition {} -> {}",
+						value.getPkey(), change.getId(), statusChange.getStatus(),
+						change.getFromStatus(), change.getFromStatus(), change.getToStatus());
 				statusChange.setStatus(change.getFromStatus());
 			}
 		}

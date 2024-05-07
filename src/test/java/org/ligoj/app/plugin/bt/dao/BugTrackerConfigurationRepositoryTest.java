@@ -51,8 +51,8 @@ class BugTrackerConfigurationRepositoryTest extends AbstractAppTest {
 
 	@Test
 	void testOnlyForCoverageJpa() {
-		Assertions.assertNotNull(slaRepository.findAll().iterator().next().getConfiguration());
-		Assertions.assertNotNull(holidayRepository.findAll().iterator().next().getCalendar());
+		Assertions.assertNotNull(slaRepository.findAll().getFirst().getConfiguration());
+		Assertions.assertNotNull(holidayRepository.findAll().getFirst().getCalendar());
 		new Calendar().setHolidays(Collections.emptyList());
 		new BugTrackerConfiguration().setBusinessHours(Collections.emptyList());
 		new BugTrackerConfiguration().setSlas(Collections.emptyList());
@@ -83,7 +83,7 @@ class BugTrackerConfigurationRepositoryTest extends AbstractAppTest {
 		Assertions.assertEquals(2, businessHours.size());
 
 		// Non-business hours range
-		final BusinessHours businessRange1 = businessHours.get(0);
+		final BusinessHours businessRange1 = businessHours.getFirst();
 		Assertions.assertEquals(32400000, businessRange1.getStart());
 		Assertions.assertEquals(43200000, businessRange1.getEnd());
 		Assertions.assertNotNull(businessRange1.getId());

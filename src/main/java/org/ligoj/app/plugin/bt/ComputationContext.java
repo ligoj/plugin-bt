@@ -173,7 +173,7 @@ public class ComputationContext {
 	private void moveToTomorrow() {
 		cursor = DateUtils.ceiling(cursor, Calendar.DATE);
 		cursorBusinessHour = 0;
-		cursorTime = businessHours.get(0).getStart();
+		cursorTime = businessHours.getFirst().getStart();
 		moveToNextBusiness();
 	}
 
@@ -213,13 +213,7 @@ public class ComputationContext {
 			this.delta = 0;
 
 			// We need to move the cursors
-			if (cursorTime + remainingDuration < DateUtils.MILLIS_PER_DAY) {
-				// We need to compute the elapsed ranges and hours within the same day
-				computeDelayTodayToTime(cursorTime + remainingDuration);
-			} else {
-				// Move to the end of this day
-				computeDelayTodayToTime(DateUtils.MILLIS_PER_DAY);
-			}
+			computeDelayTodayToTime(Math.min(cursorTime + remainingDuration, DateUtils.MILLIS_PER_DAY));
 			remainingDuration -= delta;
 		}
 
