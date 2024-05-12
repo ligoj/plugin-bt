@@ -40,9 +40,7 @@ define(function () {
 				const container = _('business-hours-content');
 				container.empty();
 				container.append($('<div class="progress-bar bar-info"></div>'));
-				for (let index = 0; index < current.model.configuration.businessHours.length; index++) {
-					current.addBusinessHours(current.model.configuration.businessHours[index]);
-				}
+				current.model.configuration.businessHours.forEach(current.addBusinessHours);
 				_('subscribe-configuration-bt').removeClass('hide');
 			});
 		},
@@ -82,13 +80,7 @@ define(function () {
 		 * Return the business hours configuration from its identifier.
 		 */
 		getBusinessHoursById: function (id) {
-			const businessHours = current.model.configuration.businessHours;
-			for (let index = 0; index < businessHours.length; index++) {
-				if (businessHours[index].id === id) {
-					return businessHours[index];
-				}
-			}
-			return null;
+			return current.model.configuration.businessHours.find(bh => bh.id === id) || null;
 		},
 		/**
 		 * Return the business hours configuration the UI element.
@@ -152,8 +144,7 @@ define(function () {
 			let boundBusinessHours = {
 				start: 3600 * 24 * 1000
 			};
-			for (let index = 0; index < current.model.configuration.businessHours.length; index++) {
-				const businessHours = current.model.configuration.businessHours[index];
+			for (let businessHours of current.model.configuration.businessHours) {
 				if (businessHours.start < boundBusinessHours.start && businessHours.start >= time) {
 					boundBusinessHours = businessHours;
 				}
@@ -168,8 +159,7 @@ define(function () {
 			let boundBusinessHours = {
 				end: 0
 			};
-			for (let index = 0; index < current.model.configuration.businessHours.length; index++) {
-				const businessHours = current.model.configuration.businessHours[index];
+			for (let businessHours of current.model.configuration.businessHours) {
 				if (businessHours.end > boundBusinessHours.end && businessHours.end <= time) {
 					boundBusinessHours = businessHours;
 				}
@@ -181,14 +171,7 @@ define(function () {
 		 * Return the business hours containing the given time, or null.
 		 */
 		getBusinessHoursOfTime: function (time) {
-			for (let index = 0; index < current.model.configuration.businessHours.length; index++) {
-				const businessHours = current.model.configuration.businessHours[index];
-				if (businessHours.start <= time && time <= businessHours.end) {
-					return businessHours;
-				}
-			}
-			// Time is not a business time
-			return null;
+		    return current.model.configuration.businessHours.find(bh => bh.start <= time && time <= bh.end) || null;
 		},
 
 		/**
@@ -290,10 +273,9 @@ define(function () {
 		 */
 		pixelToMilli: function ($bar, pixel) {
 			// Resolution is 30min
-			var gridResolution = $bar.draggable('option').grid[0];
-			var shiftNb = Math.round(pixel / gridResolution);
-			var shiftMilli = current.BUSINESS_HOURS_RESOLUTION * shiftNb;
-			return shiftMilli;
+			const gridResolution = $bar.draggable('option').grid[0];
+			const shiftNb = Math.round(pixel / gridResolution);
+			return current.BUSINESS_HOURS_RESOLUTION * shiftNb;
 		},
 
 		/**
@@ -308,7 +290,7 @@ define(function () {
 		 */
 		milliToPixel: function ($bar, milliseconds) {
 			// Resolution is 30min
-			var width = $bar.closest('.progress').width();
+			const width = $bar.closest('.progress').width();
 			return Math.round(width * milliseconds / (3600 * 24 * 1000));
 		},
 
@@ -411,14 +393,14 @@ define(function () {
 					url: REST_PATH + 'service/bt/sla/' + id,
 					success: function () {
 						// Refresh the table without additional query
-						var tr = _('slas').find('a[data-id="' + id + '"]').closest('tr')[0];
+						const tr = _('slas').find('a[data-id="' + id + '"]').closest('tr')[0];
 						current.slasTable.fnDeleteRow(tr);
 						notifyManager.notify(Handlebars.compile(current.$messages.deleted)(name));
 					}
 				});
 			} else {
 				// Requires a confirmation
-				var entity = current.slasTable.fnGetData($(this).closest('tr')[0]);
+				const entity = current.slasTable.fnGetData($(this).closest('tr')[0]);
 				bootbox.confirmDelete(function (confirmed) {
 					confirmed && current.deleteSla(entity.id, entity.name);
 				}, entity.name);
@@ -434,11 +416,9 @@ define(function () {
 				type: 'DELETE',
 				url: REST_PATH + 'service/bt/business-hours/' + id,
 				success: function () {
-					var index;
-
 					// Update data of the local store
 					current.businessHours = current.getBusinessHoursById(id);
-					for (index = 0; index < current.model.configuration.businessHours.length; index++) {
+					for (let index = 0; index < current.model.configuration.businessHours.length; index++) {
 						if (current.model.configuration.businessHours[index].id === id) {
 							current.model.configuration.businessHours.splice(index, 1);
 							break;
@@ -466,9 +446,9 @@ define(function () {
 		 */
 		saveOrUpdateSla: function (sla) {
 			if ((typeof sla) === 'undefined' || sla === null) {
-				var hours = parseInt(_('sla-threshold-hour').val(), 10);
-				var minutes = parseInt(_('sla-threshold-minute').val(), 10);
-				var seconds = parseInt(_('sla-threshold-second').val(), 10);
+				const hours = parseInt(_('sla-threshold-hour').val(), 10);
+				const minutes = parseInt(_('sla-threshold-minute').val(), 10);
+				const seconds = parseInt(_('sla-threshold-second').val(), 10);
 				sla = {
 					id: (current.sla && current.sla.id) || undefined,
 					name: _('sla-name').val(),
@@ -500,7 +480,7 @@ define(function () {
 						current.sla = $.extend(current.getSlaById(sla.id), sla);
 
 						// Update the UI
-						var tr = _('slas').find('a[data-id="' + sla.id + '"]').closest('tr')[0];
+						const tr = _('slas').find('a[data-id="' + sla.id + '"]').closest('tr')[0];
 						notifyManager.notify((Handlebars.compile(current.$messages.updated))(sla.name));
 						current.slasTable.fnUpdate(sla, tr);
 					} else {
@@ -536,7 +516,6 @@ define(function () {
 				contentType: 'application/json',
 				data: JSON.stringify(businessHours),
 				success: function (data) {
-					var $bar;
 					_('businessHoursPopup').modal('hide');
 
 					// Refresh the table without additional query
@@ -545,7 +524,7 @@ define(function () {
 						current.businessHours = $.extend(current.getBusinessHoursById(businessHours.id), businessHours);
 
 						// Update the UI
-						$bar = _('business-hours-content').find('[data-id="' + businessHours.id + '"]');
+						const $bar = _('business-hours-content').find('[data-id="' + businessHours.id + '"]');
 						current.synchronizeBar($bar, businessHours, true);
 						notifyManager.notify((Handlebars.compile(current.$messages.updated))(businessHours.id));
 					} else {
@@ -555,8 +534,7 @@ define(function () {
 						current.model.configuration.businessHours.push(businessHours);
 
 						// Update the UI
-						$bar = current.addBusinessHours(businessHours);
-						$bar.fadeIn(1500);
+						current.addBusinessHours(businessHours).fadeIn(1500);
 						notifyManager.notify((Handlebars.compile(current.$messages.created))(businessHours.id));
 					}
 				}
@@ -602,10 +580,10 @@ define(function () {
 				validationManager.mapping.priorities = 'sla-priority';
 				validationManager.mapping.resolutions = 'sla-resolution';
 				validationManager.mapping.threshold = 'sla-threshold-hour';
-				var $source = $(event.relatedTarget);
-				var uc = $source && current.slasTable.fnGetData($source.closest('tr')[0]);
-				var duration = moment.duration((uc && uc.id && uc.threshold) || 0);
-				var select2Configuration = {
+				const $source = $(event.relatedTarget);
+				let uc = $source && current.slasTable.fnGetData($source.closest('tr')[0]);
+				const duration = moment.duration((uc && uc.id && uc.threshold) || 0);
+				const select2Configuration = {
 					multiple: true,
 					createSearchChoice: function () {
 						// Disable additional values
@@ -614,7 +592,7 @@ define(function () {
 					formatResult: current.$super('toText'),
 					formatSelection: current.$super('toText')
 				};
-				var statusConfiguration = $.extend({
+				const statusConfiguration = $.extend({
 					tags: current.model.configuration.statuses
 				}, select2Configuration);
 
@@ -657,9 +635,9 @@ define(function () {
 				validationManager.reset(_('businessHoursPopup'));
 				validationManager.mapping.start = 'sla-business-hours-start';
 				validationManager.mapping.end = 'sla-business-hours-end';
-				var $source = $(event.relatedTarget);
-				var uc = $source && current.getBusinessHoursFromUi($source);
-				var firstNonBusinessHours;
+				const $source = $(event.relatedTarget);
+				let uc = $source && current.getBusinessHoursFromUi($source);
+				const firstNonBusinessHours;
 
 				current.businessHours = (uc && uc.id) ? uc : null;
 				uc = current.businessHours || {};
