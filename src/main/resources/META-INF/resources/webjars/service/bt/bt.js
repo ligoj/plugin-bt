@@ -37,10 +37,10 @@ define(function () {
 				current.slasTable.fnClearTable();
 				current.slasTable.fnAddData(current.model.configuration.slas);
 				current.slasTable.fnDraw();
-				var container = _('business-hours-content');
+				const container = _('business-hours-content');
 				container.empty();
 				container.append($('<div class="progress-bar bar-info"></div>'));
-				for (var index = 0; index < current.model.configuration.businessHours.length; index++) {
+				for (let index = 0; index < current.model.configuration.businessHours.length; index++) {
 					current.addBusinessHours(current.model.configuration.businessHours[index]);
 				}
 				_('subscribe-configuration-bt').removeClass('hide');
@@ -51,7 +51,7 @@ define(function () {
 		 * Add a new business hours UI. Data is not updated. Return the created UI.
 		 */
 		addBusinessHours: function (businessHours) {
-			var $bar = $('<div class="progress-bar progress-bar-danger" data-toggle="modal" data-target="#businessHoursPopup" data-id="' + businessHours.id + '"></div>');
+			const $bar = $('<div class="progress-bar progress-bar-danger" data-toggle="modal" data-target="#businessHoursPopup" data-id="' + businessHours.id + '"></div>');
 			$bar.append($('<span class="start"></span>'));
 			$bar.append($('<span class="end"></span>'));
 			_('business-hours-content').append($bar);
@@ -70,10 +70,10 @@ define(function () {
 				// Round the position regarding the resolution.
 				// 7:12 -> will be visually displayed as 7:00
 				// 7:40 -> will be visually displayed as 7:30
-				var startForUi = Math.round(businessHours.start / current.BUSINESS_HOURS_RESOLUTION) * current.BUSINESS_HOURS_RESOLUTION;
-				var left = current.milliToPercent(startForUi);
-				var durationForUi = (Math.round(businessHours.end / current.BUSINESS_HOURS_RESOLUTION) * current.BUSINESS_HOURS_RESOLUTION) - startForUi;
-				var width = current.milliToPercent(durationForUi);
+				const startForUi = Math.round(businessHours.start / current.BUSINESS_HOURS_RESOLUTION) * current.BUSINESS_HOURS_RESOLUTION;
+				const left = current.milliToPercent(startForUi);
+				const durationForUi = (Math.round(businessHours.end / current.BUSINESS_HOURS_RESOLUTION) * current.BUSINESS_HOURS_RESOLUTION) - startForUi;
+				const width = current.milliToPercent(durationForUi);
 				$bar.attr('style', 'width:' + width + '%;left:' + left + '%');
 			}
 		},
@@ -82,9 +82,8 @@ define(function () {
 		 * Return the business hours configuration from its identifier.
 		 */
 		getBusinessHoursById: function (id) {
-			var index;
-			var businessHours = current.model.configuration.businessHours;
-			for (index = 0; index < businessHours.length; index++) {
+			const businessHours = current.model.configuration.businessHours;
+			for (let index = 0; index < businessHours.length; index++) {
 				if (businessHours[index].id === id) {
 					return businessHours[index];
 				}
@@ -103,12 +102,12 @@ define(function () {
 		 */
 		onStartDrag: function (e) {
 			// Resolution is 30min, so 48 fragments per day
-			var $bar = $(this);
-			var container = $bar.closest('.progress');
-			var width = container.width();
-			var gridResolution = width / 48;
-			var boundBusinessHours;
-			var businessHours = current.getBusinessHoursFromUi($bar);
+			const $bar = $(this);
+			const container = $bar.closest('.progress');
+			const width = container.width();
+			const gridResolution = width / 48;
+			const businessHours = current.getBusinessHoursFromUi($bar);
+			let boundBusinessHours = null;
 
 			$bar.draggable('option', 'grid', [gridResolution, undefined]).resizable('option', 'grid', [gridResolution, undefined]);
 
@@ -127,10 +126,9 @@ define(function () {
 		 * Return the first non business available hours from a starting millisecond.
 		 */
 		getFirstNonBusinessBusinessHours: function (time) {
-			var closest;
-			var businessHour = current.getBusinessHoursOfTime(time);
+			const businessHour = current.getBusinessHoursOfTime(time);
 			time = businessHour ? businessHour.end : time;
-			closest = current.getNextBusinessHours(time);
+			const closest = current.getNextBusinessHours(time);
 			if (closest.start > time) {
 				// There is a free time between time and next business hours
 				return {start: time, end: closest.start};
@@ -151,13 +149,11 @@ define(function () {
 		 * Closest business hours (or 00:00) just after the given time.
 		 */
 		getNextBusinessHours: function (time) {
-			var index;
-			var businessHours;
-			var boundBusinessHours = {
+			let boundBusinessHours = {
 				start: 3600 * 24 * 1000
 			};
-			for (index = 0; index < current.model.configuration.businessHours.length; index++) {
-				businessHours = current.model.configuration.businessHours[index];
+			for (let index = 0; index < current.model.configuration.businessHours.length; index++) {
+				const businessHours = current.model.configuration.businessHours[index];
 				if (businessHours.start < boundBusinessHours.start && businessHours.start >= time) {
 					boundBusinessHours = businessHours;
 				}
@@ -169,13 +165,11 @@ define(function () {
 		 * Closest business hours (or 00:00) just before the given time
 		 */
 		getPreviousBusinessHours: function (time) {
-			var index;
-			var businessHours;
-			var boundBusinessHours = {
+			let boundBusinessHours = {
 				end: 0
 			};
-			for (index = 0; index < current.model.configuration.businessHours.length; index++) {
-				businessHours = current.model.configuration.businessHours[index];
+			for (let index = 0; index < current.model.configuration.businessHours.length; index++) {
+				const businessHours = current.model.configuration.businessHours[index];
 				if (businessHours.end > boundBusinessHours.end && businessHours.end <= time) {
 					boundBusinessHours = businessHours;
 				}
@@ -187,10 +181,8 @@ define(function () {
 		 * Return the business hours containing the given time, or null.
 		 */
 		getBusinessHoursOfTime: function (time) {
-			var index;
-			var businessHours;
-			for (index = 0; index < current.model.configuration.businessHours.length; index++) {
-				businessHours = current.model.configuration.businessHours[index];
+			for (let index = 0; index < current.model.configuration.businessHours.length; index++) {
+				const businessHours = current.model.configuration.businessHours[index];
 				if (businessHours.start <= time && time <= businessHours.end) {
 					return businessHours;
 				}
@@ -203,7 +195,7 @@ define(function () {
 		 * Enable UI assignment D&D feature.
 		 */
 		enableBusinessHoursDrag: function ($bar) {
-			var businessHours = current.getBusinessHoursFromUi($bar);
+			let businessHours = current.getBusinessHoursFromUi($bar);
 			$bar.draggable({
 				axis: 'x',
 				addClasses: false,
@@ -211,9 +203,9 @@ define(function () {
 				cursor: 'move',
 				drag: function (_i, data) {
 					// live update the start/end dates
-					var start0 = businessHours.start;
-					var start1 = current.pixelToMilli($bar, data.position.left);
-					var end1 = businessHours.end + start1 - start0;
+					let start0 = businessHours.start;
+					let start1 = current.pixelToMilli($bar, data.position.left);
+					let end1 = businessHours.end + start1 - start0;
 					if (current.getPreviousBusinessHours(businessHours.start).end > start1 || current.getNextBusinessHours(businessHours.end).start < end1) {
 						// Invalidate this move
 						return false;
@@ -225,10 +217,10 @@ define(function () {
 				},
 				start: current.onStartDrag,
 				stop: function (element, data) {
-					var start0 = businessHours.start;
-					var start1 = current.pixelToMilli($bar, data.position.left);
-					var end1 = businessHours.end + start1 - start0;
-					var fixedPosition;
+					let start0 = businessHours.start;
+					let start1 = current.pixelToMilli($bar, data.position.left);
+					let end1 = businessHours.end + start1 - start0;
+					let fixedPosition = 0;
 
 					// Fix the position.
 					// Draggable as already commit the position even if the 'drag' event had invalidated
@@ -259,23 +251,20 @@ define(function () {
 				handles: 'e,w',
 				resize: function (_i, data) {
 					// live update the start/end dates
-					var start1 = current.pixelToMilli($bar, data.position.left);
-					var end1 = current.pixelToMilli($bar, data.position.left + data.size.width);
-					if (current.getPreviousBusinessHours(businessHours.start).end > start1 || current.getNextBusinessHours(businessHours.end).start < end1) {
+					const start = current.pixelToMilli($bar, data.position.left);
+					const end = current.pixelToMilli($bar, data.position.left + data.size.width);
+					if (current.getPreviousBusinessHours(businessHours.start).end > start || current.getNextBusinessHours(businessHours.end).start < end) {
 						// Invalidate this resize
 						return false;
 					}
-					current.synchronizeBar($bar, {
-						start: start1,
-						end: end1
-					}, false);
+					current.synchronizeBar($bar, { start, end }, false);
 				},
 				start: current.onStartDrag,
 				stop: function (element, data) {
-					var start0 = businessHours.start;
-					var end0 = businessHours.end;
-					var start1 = current.pixelToMilli($bar, data.position.left);
-					var end1 = current.pixelToMilli($bar, data.position.left + data.size.width);
+					const start0 = businessHours.start;
+					const end0 = businessHours.end;
+					const start1 = current.pixelToMilli($bar, data.position.left);
+					const end1 = current.pixelToMilli($bar, data.position.left + data.size.width);
 
 					// Update the UI
 					if (start0 === start1 && end0 === end1) {
