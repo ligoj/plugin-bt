@@ -128,7 +128,7 @@ public class SlaProcessor {
 		for (final StatusChange change : issue.getChanges()) {
 			// Increment the counter for this status
 			final int status = change.getStatus();
-			statusCounter.put(status, ObjectUtils.defaultIfNull(statusCounter.get(status), 0) + 1);
+			statusCounter.put(status, ObjectUtils.getIfNull(statusCounter.get(status), 0) + 1);
 		}
 		return statusCounter;
 	}

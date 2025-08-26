@@ -224,10 +224,10 @@ public class BugTrackerResource extends AbstractConfiguredServicePlugin<BugTrack
 		entity.setStop(String.join(",", identifierHelper.normalize(vo.getStop())));
 		entity.setStart(String.join(",", identifierHelper.normalize(vo.getStart())));
 		entity.setThreshold(vo.getThreshold());
-		vo.setPause(ObjectUtils.defaultIfNull(vo.getPause(), new ArrayList<>()));
-		vo.setPriorities(ObjectUtils.defaultIfNull(vo.getPriorities(), new ArrayList<>()));
-		vo.setResolutions(ObjectUtils.defaultIfNull(vo.getResolutions(), new ArrayList<>()));
-		vo.setTypes(ObjectUtils.defaultIfNull(vo.getTypes(), new ArrayList<>()));
+		vo.setPause(ObjectUtils.getIfNull(vo.getPause(), new ArrayList<>()));
+		vo.setPriorities(ObjectUtils.getIfNull(vo.getPriorities(), new ArrayList<>()));
+		vo.setResolutions(ObjectUtils.getIfNull(vo.getResolutions(), new ArrayList<>()));
+		vo.setTypes(ObjectUtils.getIfNull(vo.getTypes(), new ArrayList<>()));
 		checkSlaBounds(vo);
 		entity.setPause(String.join(",", identifierHelper.normalize(vo.getPause())));
 		entity.setPriorities(String.join(",", vo.getPriorities()));
