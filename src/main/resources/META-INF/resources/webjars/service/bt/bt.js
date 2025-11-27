@@ -549,8 +549,8 @@ define(function () {
 
 			// Calendar association management
 			_('sla-calendar').select2({
-				formatResult: current.$super('toName'),
-				formatSelection: current.$super('toName'),
+				formatResult: current.$main.toName),
+				formatSelection: current.$main.toName),
 				ajax: {
 					url: REST_PATH + 'service/bt/calendar',
 					dataType: 'json',
@@ -589,8 +589,8 @@ define(function () {
 						// Disable additional values
 						return null;
 					},
-					formatResult: current.$super('toText'),
-					formatSelection: current.$super('toText')
+					formatResult: current.$main('toText'),
+					formatSelection: current.$main('toText')
 				};
 				const statusConfiguration = $.extend({
 					tags: current.model.configuration.statuses
