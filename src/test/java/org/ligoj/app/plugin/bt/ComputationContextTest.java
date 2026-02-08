@@ -4,10 +4,7 @@
 package org.ligoj.app.plugin.bt;
 
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 import org.apache.commons.lang3.time.DateUtils;
 import org.junit.jupiter.api.Assertions;
@@ -24,22 +21,22 @@ class ComputationContextTest extends AbstractDataGeneratorTest {
 
 	@Test
 	void reset() {
-		final ComputationContext context = new ComputationContext(new ArrayList<>(), new ArrayList<>());
-		context.reset(getDate(2014, 3, 3));
-		Assertions.assertEquals(getDate(2014, 3, 3), context.getCursor());
-	}
-
-	@Test
-	void resetSaturday() {
-		final ComputationContext context = new ComputationContext(new ArrayList<>(), new ArrayList<>());
-		context.reset(getDate(2014, 3, 1));
-		Assertions.assertEquals(getDate(2014, 3, 3), context.getCursor());
+		reset(Calendar.TUESDAY);
 	}
 
 	@Test
 	void resetSunday() {
+		reset(Calendar.SUNDAY);
+	}
+
+	@Test
+	void resetMonday() {
+		reset(Calendar.MONDAY);
+	}
+
+	private void reset(Integer day) {
 		final ComputationContext context = new ComputationContext(new ArrayList<>(), new ArrayList<>());
-		context.reset(getDate(2014, 3, 2));
+		context.reset(getDate(2014, 3, day));
 		Assertions.assertEquals(getDate(2014, 3, 3), context.getCursor());
 	}
 
