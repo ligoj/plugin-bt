@@ -3,15 +3,7 @@
  */
 package org.ligoj.app.plugin.bt;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.function.Consumer;
-
 import jakarta.transaction.Transactional;
-
 import org.apache.commons.lang3.time.DateUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,27 +15,28 @@ import org.ligoj.app.dao.SubscriptionRepository;
 import org.ligoj.app.model.Node;
 import org.ligoj.app.model.Project;
 import org.ligoj.app.model.Subscription;
-import org.ligoj.app.plugin.bt.dao.BugTrackerConfigurationRepository;
-import org.ligoj.app.plugin.bt.dao.BusinessHoursRepository;
-import org.ligoj.app.plugin.bt.dao.CalendarRepository;
-import org.ligoj.app.plugin.bt.dao.HolidayRepository;
-import org.ligoj.app.plugin.bt.dao.SlaRepository;
-import org.ligoj.app.plugin.bt.model.BugTrackerConfiguration;
-import org.ligoj.app.plugin.bt.model.BusinessHours;
-import org.ligoj.app.plugin.bt.model.Calendar;
-import org.ligoj.app.plugin.bt.model.Holiday;
-import org.ligoj.app.plugin.bt.model.Sla;
+import org.ligoj.app.plugin.bt.dao.*;
+import org.ligoj.app.plugin.bt.model.*;
 import org.ligoj.app.resource.ServicePluginLocator;
 import org.ligoj.bootstrap.MatcherUtil;
 import org.ligoj.bootstrap.core.INamableBean;
 import org.ligoj.bootstrap.core.resource.BusinessException;
 import org.ligoj.bootstrap.core.validation.ValidationJsonException;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.function.Consumer;
+
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * Test class of {@link BugTrackerResource}
@@ -108,13 +101,13 @@ class BugTrackerResourceTest extends AbstractAppTest {
 
 		final BugTrackerResource resource = new BugTrackerResource();
 		applicationContext.getAutowireCapableBeanFactory().autowireBean(resource);
-		resource.servicePluginLocator = Mockito.mock(ServicePluginLocator.class);
-		final BugTrackerServicePlugin jiraMock = Mockito.mock(BugTrackerServicePlugin.class);
-		Mockito.when(jiraMock.getPriorities(subscription)).thenReturn(Collections.singleton("Critical"));
-		Mockito.when(jiraMock.getResolutions(subscription)).thenReturn(Collections.singleton("Fixed"));
-		Mockito.when(jiraMock.getStatuses(subscription)).thenReturn(Collections.singleton("OPEN"));
-		Mockito.when(jiraMock.getTypes(subscription)).thenReturn(Collections.singleton("Bug"));
-		Mockito.when(resource.servicePluginLocator.getResourceExpected("service:bt:jira:4", BugTrackerServicePlugin.class))
+		resource.servicePluginLocator = mock(ServicePluginLocator.class);
+		final BugTrackerServicePlugin jiraMock = mock(BugTrackerServicePlugin.class);
+		when(jiraMock.getPriorities(subscription)).thenReturn(Collections.singleton("Critical"));
+		when(jiraMock.getResolutions(subscription)).thenReturn(Collections.singleton("Fixed"));
+		when(jiraMock.getStatuses(subscription)).thenReturn(Collections.singleton("OPEN"));
+		when(jiraMock.getTypes(subscription)).thenReturn(Collections.singleton("Bug"));
+		when(resource.servicePluginLocator.getResourceExpected("service:bt:jira:4", BugTrackerServicePlugin.class))
 				.thenReturn(jiraMock);
 		final BtConfigurationVo configurationVo = resource.getConfiguration(subscription);
 
