@@ -15,8 +15,6 @@ import lombok.Getter;
 
 /**
  * A computation context for a fixed start and end dates.
- *
- * @author Fabrice Daugan
  */
 public class ComputationContext {
 

@@ -14,8 +14,6 @@ import org.ligoj.bootstrap.AbstractDataGeneratorTest;
 
 /**
  * Test class of {@link ComputationContext}
- *
- * @author Fabrice Daugan
  */
 class ComputationContextTest extends AbstractDataGeneratorTest {
 
