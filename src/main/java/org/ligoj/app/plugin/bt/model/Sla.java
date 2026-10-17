@@ -24,7 +24,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * A SLA configuration.
+ * An SLA configuration.
  */
 @Getter
 @Setter

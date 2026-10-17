@@ -311,10 +311,8 @@ class ComputationContextTest extends AbstractDataGeneratorTest {
 
 		// 2014/03/03 07:00:00 -> 2014/03/03 10:00:00 -> 3:00:00
 		// 2014/03/03 22:00:00 -> 2014/03/03 23:00:00 -> 1:00:00
-		// 2014/03/04 00:00:00 -> 2014/03/04 10:00:00 -> 10:00:00 x 5 (=
-		// 10-4-1[2014/03/08 = Sat]-1[2014/03/09 = Sun})
-		// 2014/03/04 22:00:00 -> 2014/03/04 23:00:00 -> 1:00:00 x 5 (=
-		// 10-4-1[2014/03/08 = Sat]-1[2014/03/09 = Sun})
+		// 2014/03/04 00:00:00 -> 2014/03/04 10:00:00 -> 10:00:00 x 5 (=10-4-1[2014/03/08 = Sat]-1[2014/03/09 = Sun])
+		// 2014/03/04 22:00:00 -> 2014/03/04 23:00:00 -> 1:00:00 x 5 (=10-4-1[2014/03/08 = Sat]-1[2014/03/09 = Sun])
 		Assertions.assertEquals(((3 + 1) + (5 * 11)) * DateUtils.MILLIS_PER_HOUR, context.moveForward(getDate(2014, 3, 10, 23, 30, 0)));
 		Assertions.assertEquals(getDate(2014, 3, 11), context.getCursor());
 		Assertions.assertEquals(0, context.getCursorTime());
