@@ -3,10 +3,9 @@
  */
 package org.ligoj.app.plugin.bt;
 
-import java.io.IOException;
-import java.util.Set;
-
 import org.ligoj.app.api.ServicePlugin;
+
+import java.util.Set;
 
 /**
  * Features of bug tracker implementations.
@@ -19,10 +18,8 @@ public interface BugTrackerServicePlugin extends ServicePlugin {
 	 * @param subscription
 	 *            the subscription's identifier.
 	 * @return the statuses.
-	 * @throws IOException
-	 *             When statuses cannot read.
 	 */
-	Set<String> getStatuses(int subscription) throws IOException;
+	Set<String> getStatuses(int subscription);
 
 	/**
 	 * Return available types text.
@@ -30,10 +27,8 @@ public interface BugTrackerServicePlugin extends ServicePlugin {
 	 * @param subscription
 	 *            the subscription's identifier.
 	 * @return the types.
-	 * @throws IOException
-	 *             When types cannot read.
 	 */
-	Set<String> getTypes(int subscription) throws IOException;
+	Set<String> getTypes(int subscription);
 
 	/**
 	 * Return available priorities text.
@@ -41,10 +36,8 @@ public interface BugTrackerServicePlugin extends ServicePlugin {
 	 * @param subscription
 	 *            the subscription's identifier.
 	 * @return the priorities.
-	 * @throws IOException
-	 *             When priorities cannot read.
 	 */
-	Set<String> getPriorities(int subscription) throws IOException;
+	Set<String> getPriorities(int subscription);
 
 	/**
 	 * Return available resolutions text.
@@ -52,8 +45,6 @@ public interface BugTrackerServicePlugin extends ServicePlugin {
 	 * @param subscription
 	 *            the subscription's identifier.
 	 * @return the resolutions.
-	 * @throws IOException
-	 *             When resolutions cannot read.
 	 */
-	Set<String> getResolutions(int subscription) throws IOException;
+	Set<String> getResolutions(int subscription);
 }
